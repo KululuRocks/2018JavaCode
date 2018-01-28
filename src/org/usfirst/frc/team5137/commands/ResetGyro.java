@@ -19,8 +19,9 @@ public class ResetGyro extends Command {
 	
 	protected void execute() {
 		gyro.reset();
-		Timer.delay(1);
+		Timer.delay(.5);
 		gyro.calibrate();
+		
 		Timer.delay(0.5);
 		isFinished = true;
 		
