@@ -60,16 +60,16 @@ public class DriveBase extends Subsystem {
 		hotWheels.arcadeDrive(speed, angle*Kp);
 		
 	}
+	
 	public void slideDrive() {
 		double speed = .25;
 		slideDriveMotor.set(speed);
 		
 	}
+	
 	public void stop() {
-		leftDriveMotor.set(0);
-		rightDriveMotor.set(0);
 		slideDriveMotor.set(0);
+		hotWheels.arcadeDrive(0,0);
 	}
 
-	
 }
