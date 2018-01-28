@@ -4,16 +4,16 @@ import org.usfirst.frc.team5137.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TankDrive extends Command {
+public class AutoDriveStraight extends Command {
 	
-	public TankDrive() {
+	public AutoDriveStraight() {
 		requires(Robot.driveBase);
 	}
 	
 	protected void execute() {
-		Robot.driveBase.tankDrive(Robot.oi.jackBlack);
+		Robot.driveBase.autoDriveStraight();
 	}
-
+	
 	protected boolean isFinished() {
 		return false;
 	}
@@ -25,6 +25,5 @@ public class TankDrive extends Command {
 	protected void interrupted() {
 		end();
 	}
-
 	
 }

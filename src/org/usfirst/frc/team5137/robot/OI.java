@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5137.robot;
 
 import org.usfirst.frc.team5137.commands.ArcadeDrive;
+import org.usfirst.frc.team5137.commands.AutoDriveStraight;
 import org.usfirst.frc.team5137.commands.TankDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -13,6 +14,8 @@ public class OI {
 	public JoystickButton arcadeModeBumper;
 	public JoystickButton tankModeBumper;
 	
+	public JoystickButton autoTestButton;
+	
 	public OI() {
 		jackBlack = new Joystick(0);
 		
@@ -21,5 +24,8 @@ public class OI {
 		
 		tankModeBumper = new JoystickButton(jackBlack, 5);
 		tankModeBumper.toggleWhenPressed(new TankDrive());
+		
+		autoTestButton = new JoystickButton(jackBlack, 1);
+		autoTestButton.toggleWhenPressed(new AutoDriveStraight()); // change to whileHeld??
 	}
 }
