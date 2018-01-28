@@ -60,15 +60,21 @@ public class Robot extends TimedRobot {
 	}
 
 	public void autonomousPeriodic() {
+		//Scheduler.getInstance().run();
 		
 		if(timer.get() <2.0) {
 			driveBase.driveStraight();
 			
 		}
+		else if(timer.get() <4) {
+			
+			driveBase.slideDrive();
+		}
 		else {
 			driveBase.stop();
 			
 		}
+	
 	}
 
 	    
