@@ -17,7 +17,7 @@ public class DriveBase extends Subsystem {
 	ADXRS450_Gyro gyro = RobotMap.gyro;
 	
 	DifferentialDrive hotWheels = RobotMap.hotWheels;
-	double Kp = 0.3;
+	double Kp = 0.03;
 	
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDrive());
@@ -30,11 +30,14 @@ public class DriveBase extends Subsystem {
 	
 	public void tankDrive(Joystick jackBlack) {
 		hotWheels.tankDrive(jackBlack.getRawAxis(1), jackBlack.getRawAxis(5));
+		slideDriveMotor.set(jackBlack.getRawAxis(0));
+		
+		
 	}
 
 	public void driveStraight() {
 		double angle = gyro.getAngle();
-		double speed = -0.75;
+		double speed = -0.7;
 		hotWheels.arcadeDrive(speed, angle*Kp);
 		
 	}
@@ -43,5 +46,6 @@ public class DriveBase extends Subsystem {
 		rightDriveMotor.set(0);
 		slideDriveMotor.set(0);
 	}
+
 	
 }
