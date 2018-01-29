@@ -10,15 +10,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveBase extends Subsystem {
-
 	Spark leftDriveMotor = RobotMap.leftDriveMotor;
 	Spark rightDriveMotor = RobotMap.rightDriveMotor;
 	Spark slideDriveMotor = RobotMap.slideDriveMotor;
 	ADXRS450_Gyro gyro = RobotMap.gyro;
-	
 	DifferentialDrive hotWheels = RobotMap.hotWheels;
 	double Kp = 0.03;
-	
 	
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDrive());
@@ -38,8 +35,6 @@ public class DriveBase extends Subsystem {
 		double adjustedSlideJoystick = adjustJoystickValue(jackBlack.getRawAxis(0), .2);
 		double adjustedArcadeJoystick = adjustJoystickValue(jackBlack.getRawAxis(1), .2);
 		double adjustedTurnJoystick = adjustJoystickValue(jackBlack.getRawAxis(4), .2);
-		
-		
 		slideDriveMotor.set(adjustedSlideJoystick);
 		hotWheels.arcadeDrive(adjustedArcadeJoystick, adjustedTurnJoystick);
 	}
@@ -58,13 +53,37 @@ public class DriveBase extends Subsystem {
 		double angle = gyro.getAngle();
 		double speed = -0.65;
 		hotWheels.arcadeDrive(speed, angle*Kp);
-		
 	}
 	
-	public void slideDrive() {
+	public void turnRight() {
+		rightDriveMotor.set(.20);
+		leftDriveMotor.set(-.20);
+	}
+	public void turnLeft() {
+		rightDriveMotor.set(-.20);
+		leftDriveMotor.set(.20);	
+	}
+	public void angle0() {
+		rightDriveMotor.set(0);
+		leftDriveMotor.set(0);
+	}
+
+	public void lateralDrive() {
+		double angle = gyro.getAngle();
 		double speed = .25;
 		slideDriveMotor.set(speed);
 		
+		if(angle > 0) {
+			turnRight();
+		}
+		else if (angle < 0) {
+			turnLeft();
+			
+		}
+		else if(angle == 0) {
+			angle0();
+				
+		}		
 	}
 	
 	public void stop() {

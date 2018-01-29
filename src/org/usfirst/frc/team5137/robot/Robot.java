@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team5137.robot;
 
-import org.usfirst.frc.team5137.commands.DriveStraight;
+import org.usfirst.frc.team5137.commands.AutoDrive;
 import org.usfirst.frc.team5137.subsystems.DriveBase;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -27,9 +27,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class Robot extends TimedRobot {
 	public static DriveBase driveBase;
 	public static OI oi;
-	private static Timer timer = new Timer();
+	public static Timer timer = new Timer();
 	
-	//Command autonomousCommand;
+	Command autonomousCommand;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
 		/*insert poem here 
 		*/
 		oi = new OI();
-		//autonomousCommand = new DriveStraight();
+		autonomousCommand = new AutoDrive();
 	    
 	}
 	
@@ -53,28 +53,15 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void autonomousInit() {
-		//if (autonomousCommand != null) autonomousCommand.start();
+		if (autonomousCommand != null) autonomousCommand.start();
 		timer.reset();
 		timer.start();
 		
 	}
 
 	public void autonomousPeriodic() {
-		//Scheduler.getInstance().run();
+		Scheduler.getInstance().run();
 		
-		if(timer.get() <2.0) {
-			driveBase.driveStraight();
-			
-		}
-		else if(timer.get() <4) {
-			
-			driveBase.slideDrive();
-		}
-		else {
-			driveBase.stop();
-			
-		}
-	
 	}
 
 	    
