@@ -10,12 +10,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveBase extends Subsystem {
+	// Lines 14-19 are used to call all required bits into the subsystem and give them names to respond to
 	Spark leftDriveMotor = RobotMap.leftDriveMotor;
 	Spark rightDriveMotor = RobotMap.rightDriveMotor;
 	Spark slideDriveMotor = RobotMap.slideDriveMotor;
 	ADXRS450_Gyro gyro = RobotMap.gyro;
 	DifferentialDrive hotWheels = RobotMap.hotWheels;
-	double Kp = 0.03;
+	double Kp = 0.03; // sensitivity of the gyro 
 	
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDrive());

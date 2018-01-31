@@ -3,7 +3,10 @@ package org.usfirst.frc.team5137.commands;
 import org.usfirst.frc.team5137.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+/* Tank drive is a form of driving...
+ * That disables the slide drive and assigns the drive motors to
+ * a joystick each.
+ */
 public class TankDrive extends Command {
 	
 	public TankDrive() {

@@ -37,35 +37,35 @@ public class Robot extends TimedRobot {
 	
 	Command autonomousCommand; 
 	// This tells the Robot that there is an autonomousCommand 
-	 
-
+	
+	/*	robotInit() is the first thing the robot does on boot up
+	 it is used to declare what subsytems and the oi are and to calibrate any gyros 
+	 and start timers
+	 */
 	public void robotInit() {
 		
-		/*	robotInit() is the first thing the robot does on boot up
-		 it is used to declare what subsytems and the oi are and to calibrate any gyros 
-		 and start timers
-		 */
 		RobotMap.init();
 	   	RobotMap.gyro.calibrate();
-	   	/*
-	   	 The above 2 lines are required if the gyro is being used by any system,
+	  
+	   	/*The above 2 lines are required if the gyro is being used by any system,
 	   	 If it is not in place, the gyro is basically never turned on or accessed.
 	   	 */
 	   	 
 	   	driveBase = new DriveBase();
 		oi = new OI();
-		autonomousCommand = new AutonoumousCommandGroup(); // declares what the autonomous period will run for its command!
 		// Declaring that the driveBase, or any subsystem including the oi
 		//is a new subsystem is required during the init process or they won't work
-		timer.reset();
-		timer.start();
 		
+		autonomousCommand = new AutonoumousCommandGroup(); 
+		// declares what the autonomous period will run for its command!
 	}
 	
 	public static void resetTimer() {
 		timer.reset();
 	}
-	
+	/*The below code instructs the robot what to do when Autonomous mode is first pressed
+	 in this case, it tells it to run the autonomous default command and to reset and start the timer
+	 */
 	public void autonomousInit() {
 		if (autonomousCommand != null) autonomousCommand.start();
 		timer.reset();
@@ -78,16 +78,19 @@ public class Robot extends TimedRobot {
 		//This runs the default command defined in robotInit()
 		
 	}
-
-	    
+	
+	//This tells the robot to not run the autonomous command 
 	public void teleopInit() {
 		if (autonomousCommand != null)
 		autonomousCommand.cancel();
 		   
 	}
+	/*
+	 * This runs any default commands defined in any subsystems, 
+	 * typically, only the driveBase/Train has one set
+	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		//This runs any default commands defined in any subsystems, typically, only the driveBase/Train has one set
 		
 	}
 
