@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team5137.robot;
 
-import org.usfirst.frc.team5137.commands.AutoDrive;
+import org.usfirst.frc.team5137.commands.AutonoumousCommandGroup;
 import org.usfirst.frc.team5137.subsystems.DriveBase;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -31,11 +31,6 @@ public class Robot extends TimedRobot {
 	
 	Command autonomousCommand;
 
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
-	@Override
 	public void robotInit() {
 		RobotMap.init();
 	   	RobotMap.gyro.calibrate();
@@ -44,7 +39,7 @@ public class Robot extends TimedRobot {
 		/*insert poem here 
 		*/
 		oi = new OI();
-		autonomousCommand = new AutoDrive();
+		autonomousCommand = new AutonoumousCommandGroup();
 	    
 	}
 	
@@ -66,8 +61,8 @@ public class Robot extends TimedRobot {
 
 	    
 	public void teleopInit() {
-		//if (autonomousCommand != null)
-		//autonomousCommand.cancel();
+		if (autonomousCommand != null)
+		autonomousCommand.cancel();
 		   
 	}
 	public void teleopPeriodic() {

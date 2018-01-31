@@ -18,8 +18,8 @@ public class RobotMap {
 		leftDriveMotor.setInverted(true);
 		rightDriveMotor = new Spark(1);
 		rightDriveMotor.setInverted(true);
+		
 		slideDriveMotor = new Spark(2);
-		slideDriveMotor.setInverted(true);
 		
     	hotWheels = new DifferentialDrive(leftDriveMotor, rightDriveMotor);
     	gyro = new ADXRS450_Gyro();
