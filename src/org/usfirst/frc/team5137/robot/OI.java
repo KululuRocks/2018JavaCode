@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5137.robot;
 
 import org.usfirst.frc.team5137.commands.ArcadeDrive;
+import org.usfirst.frc.team5137.commands.DisplayValues;
 import org.usfirst.frc.team5137.commands.DriveStraight;
 import org.usfirst.frc.team5137.commands.ResetGyro;
 import org.usfirst.frc.team5137.commands.TankDrive;
@@ -16,6 +17,7 @@ public class OI {
 	public JoystickButton tankModeBumper;
 	public JoystickButton DriveStraightButton;
 	public JoystickButton resetGyro;
+	public JoystickButton displayValuesButtons;
 	
 	public OI() {
 		jackBlack = new Joystick(0);
@@ -31,6 +33,9 @@ public class OI {
 		
 		resetGyro = new JoystickButton(jackBlack, 7);
 		resetGyro.whileHeld(new ResetGyro());
-	
+		
+		displayValuesButtons = new JoystickButton(jackBlack,9); // L_Stick in
+		displayValuesButtons.toggleWhenPressed(new DisplayValues());
+		
 	}
 }

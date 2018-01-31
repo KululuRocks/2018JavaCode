@@ -7,14 +7,13 @@
 
 package org.usfirst.frc.team5137.robot;
 
-import org.usfirst.frc.team5137.commands.DriveStraight;
+import org.usfirst.frc.team5137.commands.AutonoumousCommandGroup;
 import org.usfirst.frc.team5137.subsystems.DriveBase;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,83 +23,74 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-	/*private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
-	private SendableChooser<String> m_chooser = new SendableChooser<>();
-	*/
-	public static DriveBase driveBase;
-	public static OI oi;
-	Command autonomousCommand;
-
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	public static DriveBase driveBase; 
+	public static OI oi;	
+	/*	The Robot class acts as a kind of hub for all other classes, including subsystems and commands. 
+	 * For example, by stating that the DriveBase is static and public, 
+	 * it allows the whole robot program to find it.  With out doing this, no class could find another.
 	 */
-	@Override
+	
+	public static Timer timer = new Timer(); 
+	/* This creates a timer that the whole Robot can see and can be used to run commands off of
+	 i.e. the AutoDrive command does.
+	*/
+	
+	Command autonomousCommand; 
+	// This tells the Robot that there is an autonomousCommand 
+	 
+
 	public void robotInit() {
-		//m_chooser.addDefault("Default Auto", kDefaultAuto);
-		//m_chooser.addObject("My Auto", kCustomAuto);
-		//SmartDashboard.putData("Auto choices", m_chooser);
+		
+		/*	robotInit() is the first thing the robot does on boot up
+		 it is used to declare what subsytems and the oi are and to calibrate any gyros 
+		 and start timers
+		 */
 		RobotMap.init();
 	   	RobotMap.gyro.calibrate();
-	   	
-		driveBase = new DriveBase();
-		//insert poem here
+	   	/*
+	   	 The above 2 lines are required if the gyro is being used by any system,
+	   	 If it is not in place, the gyro is basically never turned on or accessed.
+	   	 */
+	   	 
+	   	driveBase = new DriveBase();
 		oi = new OI();
-		autonomousCommand = new DriveStraight();
-	    
+		autonomousCommand = new AutonoumousCommandGroup(); // declares what the autonomous period will run for its command!
+		// Declaring that the driveBase, or any subsystem including the oi
+		//is a new subsystem is required during the init process or they won't work
+		timer.reset();
+		timer.start();
+		
 	}
-
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional comparisons to
-	 * the switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
-	 */
-	@Override
+	
+	public static void resetTimer() {
+		timer.reset();
+	}
+	
 	public void autonomousInit() {
-		//m_autoSelected = m_chooser.getSelected();
-		// m_autoSelected = SmartDashboard.getString("Auto Selector",
-		// 		kDefaultAuto);
-		//System.out.println("Auto selected: " + m_autoSelected);
+		if (autonomousCommand != null) autonomousCommand.start();
+		timer.reset();
+		timer.start();
+		
 	}
 
-	/**
-	 * This function is called periodically during autonomous.
-	 */
-	@Override
 	public void autonomousPeriodic() {
-		/*switch (m_autoSelected) {
-			case kCustomAuto:
-				// Put custom auto code here
-				break;
-			case kDefaultAuto:
-			default:
-				// Put default auto code here
-				break;
-			}*/
 		Scheduler.getInstance().run();
-	    
+		//This runs the default command defined in robotInit()
+		
 	}
 
-	/**
-	 * This function is called periodically during operator control.
-	 */
-	@Override
+	    
+	public void teleopInit() {
+		if (autonomousCommand != null)
+		autonomousCommand.cancel();
+		   
+	}
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		//This runs any default commands defined in any subsystems, typically, only the driveBase/Train has one set
+		
 	}
 
-	/**
-	 * This function is called periodically during test mode.
-	 */
-	@Override
 	public void testPeriodic() {
 	}
 }
