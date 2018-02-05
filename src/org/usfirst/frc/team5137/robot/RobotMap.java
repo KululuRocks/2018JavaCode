@@ -17,7 +17,6 @@ public class RobotMap {
 	public static Spark slideDriveMotor;
 	public static DifferentialDrive hotWheels;
 	public static ADXRS450_Gyro gyro;
-    
 	
 	public static void init() {
 		leftDriveMotor = new Spark(0);
@@ -30,6 +29,5 @@ public class RobotMap {
 		
     	hotWheels = new DifferentialDrive(leftDriveMotor, rightDriveMotor);
     	gyro = new ADXRS450_Gyro();
-    	
 	}
 }

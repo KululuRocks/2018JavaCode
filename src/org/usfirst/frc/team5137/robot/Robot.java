@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 		
 		RobotMap.init();
 	   	RobotMap.gyro.calibrate();
-	  
+	   	
 	   	/*The above 2 lines are required if the gyro is being used by any system,
 	   	 If it is not in place, the gyro is basically never turned on or accessed.
 	   	 */
@@ -80,6 +80,7 @@ public class Robot extends TimedRobot {
 		//if (autonomousCommand != null) autonomousCommand.start();
 		timer.reset();
 		timer.start();
+
 		
 	}
 

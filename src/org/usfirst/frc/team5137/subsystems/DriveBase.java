@@ -62,7 +62,7 @@ public class DriveBase extends Subsystem {
 
 		if (Math.abs(angle) > 72) {
 			turnRate = angle * .0056;
-		} else if (Math.abs(angle) < 2) {
+		} else if (Math.abs(angle) < .5) {
 			turnRate = 0;
 		} else {
 			turnRate = Math.signum(angle) * .4;

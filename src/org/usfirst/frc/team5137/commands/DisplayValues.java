@@ -13,13 +13,6 @@ public class DisplayValues extends Command {
 	}
 	protected void execute() {
 		SmartDashboard.putNumber("Angle", RobotMap.gyro.getAngle()); // sends the raw gyro value to Smart Dash
-		
-		
-		//SmartDashboard.putNumber("Distance1", RobotMap.soundMaker1.getRangeInches()*scaleFactor);
-		//SmartDashboard.putNumber("Distance2", RobotMap.soundMaker2.getRangeInches()*scaleFactor);
-		//SmartDashboard.putNumber("Distance3", RobotMap.soundMaker3.getRangeInches()*scaleFactor);
-		//SmartDashboard.putNumber("Distance4", RobotMap.soundMaker4.getRangeInches()*scaleFactor);
-		
 	}
 	
 	protected boolean isFinished() {
