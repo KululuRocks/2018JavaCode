@@ -7,12 +7,15 @@
 
 package org.usfirst.frc.team5137.robot;
 import org.usfirst.frc.team5137.commands.AutonoumousCommandGroup;
+import org.usfirst.frc.team5137.commands.DriveStraight;
 import org.usfirst.frc.team5137.subsystems.DriveBase;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,9 +39,10 @@ public class Robot extends TimedRobot {
 	
 	Command autonomousCommand; 
 	// This tells the Robot that there is an autonomousCommand 
+	SendableChooser<Command> autoChooser;
 	
 	/*	robotInit() is the first thing the robot does on boot up
-	 it is used to declare what subsytems and the oi are and to calibrate any gyros 
+	 it is used to declare what subsystems and the OI are and to calibrate any gyros 
 	 and start timers
 	 */
 	public void robotInit() {
@@ -52,11 +56,16 @@ public class Robot extends TimedRobot {
 	   	 
 	   	driveBase = new DriveBase();
 		oi = new OI();
-		// Declaring that the driveBase, or any subsystem including the oi
+		// Declaring that the driveBase, or any subsystem including the OI
 		//is a new subsystem is required during the init process or they won't work
 		
-		autonomousCommand = new AutonoumousCommandGroup(); 
+		//autonomousCommand = new AutonoumousCommandGroup(); 
 		// declares what the autonomous period will run for its command!
+		autoChooser = new SendableChooser<Command>();
+		autoChooser.addDefault("Default program", new AutonoumousCommandGroup());
+		autoChooser.addObject("Drive Forever", new DriveStraight());
+		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
+				
 	}
 	
 	public static void resetTimer() {
@@ -66,7 +75,9 @@ public class Robot extends TimedRobot {
 	 in this case, it tells it to run the autonomous default command and to reset and start the timer
 	 */
 	public void autonomousInit() {
-		if (autonomousCommand != null) autonomousCommand.start();
+		autonomousCommand = (Command) autoChooser.getSelected();
+		autonomousCommand.start();
+		//if (autonomousCommand != null) autonomousCommand.start();
 		timer.reset();
 		timer.start();
 		
@@ -85,7 +96,7 @@ public class Robot extends TimedRobot {
 		   
 	}
 	/*
-	 * This runs any default commands defined in any subsystems, 
+	 * teleopPeriodic runs any default commands defined in any subsystems, 
 	 * typically, only the driveBase/Train has one set
 	 */
 	public void teleopPeriodic() {

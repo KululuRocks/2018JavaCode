@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5137.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-// Command groups are used to run multiple commands at once, in sequence or a combination of both
+// Command groups are used to run multiple commands at once, in sequence, or a combination of both
 public class AutonoumousCommandGroup extends CommandGroup {
 	
 	public AutonoumousCommandGroup() {

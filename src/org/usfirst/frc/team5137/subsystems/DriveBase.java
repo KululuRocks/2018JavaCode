@@ -10,13 +10,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveBase extends Subsystem {
-	// Lines 14-19 are used to call all required bits into the subsystem and give them names to respond to
+	// Lines 14-18 are used to call all required bits into the subsystem and give them names to respond to
 	Spark leftDriveMotor = RobotMap.leftDriveMotor;
 	Spark rightDriveMotor = RobotMap.rightDriveMotor;
 	Spark slideDriveMotor = RobotMap.slideDriveMotor;
 	ADXRS450_Gyro gyro = RobotMap.gyro;
 	DifferentialDrive hotWheels = RobotMap.hotWheels;
-	double Kp = (1/200); // sensitivity of the gyro 
 	
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDrive());
@@ -56,42 +55,53 @@ public class DriveBase extends Subsystem {
 		slideDriveMotor.set(adjustedSlideJoystick);		
 	}
 	//	This method works by calling upon the gyro to give a scaled turn value to the arcadeDrive
-	public double adjustedAngle(double angle) {
-		double adjustedAngle;
-		if (angle > 135) {
-			adjustedAngle = 0.75;
+	public double turnRate(double angle) {
+		
+		
+		double turnRate;
+
+		if (Math.abs(angle) > 72) {
+			turnRate = angle * .0056;
+		} else if (Math.abs(angle) < 2) {
+			turnRate = 0;
+		} else {
+			turnRate = Math.signum(angle) * .4;
+		}
+		
+		/*if (angle > 135) {
+			turnRate = 0.75;
 		}
 		else if(angle < -135) {
-			adjustedAngle = -0.75;
+			turnRate = -0.75;
 		}
 		else if(angle > 90) {
-			adjustedAngle = 0.5;
+			turnRate = 0.5;
 			}
 		else if(angle < -90) {
-			adjustedAngle = 0.5;
+			turnRate = 0.5;
 		}
 		else if(angle > 45) {
-			adjustedAngle = 0.3;
+			turnRate = 0.3;
 		}
 		else if(angle < -45) {
-			adjustedAngle = -0.3;
+			turnRate = -0.3;
 		}
 		else if(angle > 0) {
-			adjustedAngle = 0.25;
+			turnRate = 0.25;
 		}
 		else if(angle < 0) {
-			adjustedAngle = -0.25;
+			turnRate = -0.25;
 		}
 		else {
-			adjustedAngle = 0;
-		}
-		return adjustedAngle;	
+			turnRate = 0;
+		}*/
+		return turnRate;	
 	}
 	
 	public void driveStraight() {
-		double adjustedAngle = adjustedAngle(gyro.getAngle());
+		double turnRate = turnRate(gyro.getAngle());
 		double speed = -0.65;
-		hotWheels.arcadeDrive(speed, adjustedAngle);
+		hotWheels.arcadeDrive(speed, turnRate);
 	}
 	
 	public void turnRight() {
