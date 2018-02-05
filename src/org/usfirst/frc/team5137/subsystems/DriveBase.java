@@ -41,7 +41,7 @@ public class DriveBase extends Subsystem {
 		double adjustedArcadeJoystick = adjustJoystickValue(jackBlack.getRawAxis(1), .3);
 		double adjustedTurnJoystick = adjustJoystickValue(jackBlack.getRawAxis(4), .3);
 		slideDriveMotor.set(adjustedSlideJoystick);
-		hotWheels.arcadeDrive(adjustedArcadeJoystick, adjustedTurnJoystick);
+		hotWheels.arcadeDrive(adjustedArcadeJoystick, -adjustedTurnJoystick);
 //	Using the DifferentialDrive, simplifies the coding and is more accurate than coding out each drive motor
 	}
 	/* Tank drive is a form of driving...
