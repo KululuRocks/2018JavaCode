@@ -56,10 +56,7 @@ public class DriveBase extends Subsystem {
 	}
 	//	This method works by calling upon the gyro to give a scaled turn value to the arcadeDrive
 	public double turnRate(double angle) {
-		
-		
 		double turnRate;
-
 		if (Math.abs(angle) > 72) {
 			turnRate = angle * .0056;
 		} else if (Math.abs(angle) < .5) {
@@ -67,34 +64,6 @@ public class DriveBase extends Subsystem {
 		} else {
 			turnRate = Math.signum(angle) * .4;
 		}
-		
-		/*if (angle > 135) {
-			turnRate = 0.75;
-		}
-		else if(angle < -135) {
-			turnRate = -0.75;
-		}
-		else if(angle > 90) {
-			turnRate = 0.5;
-			}
-		else if(angle < -90) {
-			turnRate = 0.5;
-		}
-		else if(angle > 45) {
-			turnRate = 0.3;
-		}
-		else if(angle < -45) {
-			turnRate = -0.3;
-		}
-		else if(angle > 0) {
-			turnRate = 0.25;
-		}
-		else if(angle < 0) {
-			turnRate = -0.25;
-		}
-		else {
-			turnRate = 0;
-		}*/
 		return turnRate;	
 	}
 	
@@ -103,7 +72,7 @@ public class DriveBase extends Subsystem {
 		double speed = -0.65;
 		hotWheels.arcadeDrive(speed, turnRate);
 	}
-	
+	/*s
 	public void turnRight() {
 		rightDriveMotor.set(.20);
 		leftDriveMotor.set(-.20);
@@ -115,24 +84,26 @@ public class DriveBase extends Subsystem {
 	public void angle0() {
 		rightDriveMotor.set(0);
 		leftDriveMotor.set(0);
-	}
-
+	} */
+	
 	public void lateralDrive() {
-		double angle = gyro.getAngle();
-		double speed = .25;
-		slideDriveMotor.set(speed);
+		//double angle = gyro.getAngle();
+		double turnRate = turnRate(gyro.getAngle());
+		double speed = .5;
+		slideDriveMotor.set(speed);	
+		hotWheels.arcadeDrive(0, turnRate);
 		
-		if(angle > 0) {
+		/*
+		 * if(angle > 0) {
+		 
 			turnRight();
 		}
 		else if (angle < 0) {
-			turnLeft();
-			
+			turnLeft();	
 		}
 		else if(angle == 0) {
 			angle0();
-				
-		}		
+		}*/
 	}
 	
 	public void stop() {
