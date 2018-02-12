@@ -5,9 +5,12 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveStraight extends Command {
 
+	/* This command is practically the same as AutoDrive with out the timer based code,
+	The point of it is to check the gyro during teleOp to help with debugging
+	*/
+	
 	public DriveStraight() {
-		requires(Robot.driveBase);
-		
+		requires(Robot.driveBase);	
 	}
 	
 	public void execute() {
@@ -23,9 +26,8 @@ public class DriveStraight extends Command {
 		
 	}
 	
-	@Override
+	
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

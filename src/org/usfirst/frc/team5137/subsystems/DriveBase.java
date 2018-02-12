@@ -10,17 +10,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveBase extends Subsystem {
+	// Lines 14-18 are used to call all required bits into the subsystem and give them names to respond to
 	Spark leftDriveMotor = RobotMap.leftDriveMotor;
 	Spark rightDriveMotor = RobotMap.rightDriveMotor;
 	Spark slideDriveMotor = RobotMap.slideDriveMotor;
 	ADXRS450_Gyro gyro = RobotMap.gyro;
 	DifferentialDrive hotWheels = RobotMap.hotWheels;
-	double Kp = 0.03;
 	
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDrive());
 	}
-	
+	//	An algorithm developed by the fantastic Sarah C. Lincoln that adjusts the joysticks
+	//	to run scaled to the deadZone
 	public double adjustJoystickValue(double joystick, double deadZone) {
 		double adjustedJoystick;
 		if (Math.abs(joystick) < deadZone) {
@@ -30,31 +31,48 @@ public class DriveBase extends Subsystem {
 		}
 		return adjustedJoystick;
 	}
-	
+	/*Arcade Drive is a form of driving...
+	 * That allows one joystick on a controller to control both forwards/backwards and left and right (via SlideDrive)
+	 * and delegates rotation to a different joystick
+	 */
 	public void arcadeDrive(Joystick jackBlack) {
-		double adjustedSlideJoystick = adjustJoystickValue(jackBlack.getRawAxis(0), .2);
-		double adjustedArcadeJoystick = adjustJoystickValue(jackBlack.getRawAxis(1), .2);
-		double adjustedTurnJoystick = adjustJoystickValue(jackBlack.getRawAxis(4), .2);
+		double adjustedSlideJoystick = adjustJoystickValue(jackBlack.getRawAxis(0), .3);
+		double adjustedArcadeJoystick = adjustJoystickValue(jackBlack.getRawAxis(1), .3);
+		double adjustedTurnJoystick = adjustJoystickValue(jackBlack.getRawAxis(4), .3);
 		slideDriveMotor.set(adjustedSlideJoystick);
-		hotWheels.arcadeDrive(adjustedArcadeJoystick, adjustedTurnJoystick);
+		hotWheels.arcadeDrive(adjustedArcadeJoystick, -adjustedTurnJoystick);
+//	Using the DifferentialDrive, simplifies the coding and is more accurate than coding out each drive motor
 	}
-	
+	/* Tank drive is a form of driving...
+	 * That disables the slide drive and assigns the drive motors to
+	 * a joystick each.
+	 */
 	public void tankDrive(Joystick jackBlack) {
-		double adjustedLeftJoystick = adjustJoystickValue(jackBlack.getRawAxis(1), .2);
-		double adjustedRightJoystick = adjustJoystickValue(jackBlack.getRawAxis(5), .2);
-		double adjustedSlideJoystick = adjustJoystickValue(jackBlack.getRawAxis(0), .2);
-		
+		double adjustedLeftJoystick = adjustJoystickValue(jackBlack.getRawAxis(1), .3);
+		double adjustedRightJoystick = adjustJoystickValue(jackBlack.getRawAxis(5), .3);
+		double adjustedSlideJoystick = adjustJoystickValue(jackBlack.getRawAxis(0), .3);
 		hotWheels.tankDrive(adjustedLeftJoystick, adjustedRightJoystick);
-		slideDriveMotor.set(adjustedSlideJoystick);
-			
+		slideDriveMotor.set(adjustedSlideJoystick);		
 	}
-
-	public void driveStraight() {
-		double angle = gyro.getAngle();
-		double speed = -0.65;
-		hotWheels.arcadeDrive(speed, angle*Kp);
+	//	This method works by calling upon the gyro to give a scaled turn value to the arcadeDrive
+	public double turnRate(double angle) {
+		double turnRate;
+		if (Math.abs(angle) > 72) {
+			turnRate = angle * .0056;
+		} else if (Math.abs(angle) < .5) {
+			turnRate = 0;
+		} else {
+			turnRate = Math.signum(angle) * .4;
+		}
+		return turnRate;	
 	}
 	
+	public void driveStraight() {
+		double turnRate = turnRate(gyro.getAngle());
+		double speed = -0.65;
+		hotWheels.arcadeDrive(speed, turnRate);
+	}
+	/*s
 	public void turnRight() {
 		rightDriveMotor.set(.20);
 		leftDriveMotor.set(-.20);
@@ -66,24 +84,26 @@ public class DriveBase extends Subsystem {
 	public void angle0() {
 		rightDriveMotor.set(0);
 		leftDriveMotor.set(0);
-	}
-
+	} */
+	
 	public void lateralDrive() {
-		double angle = gyro.getAngle();
-		double speed = .25;
-		slideDriveMotor.set(speed);
+		//double angle = gyro.getAngle();
+		double turnRate = turnRate(gyro.getAngle());
+		double speed = .5;
+		slideDriveMotor.set(speed);	
+		hotWheels.arcadeDrive(0, turnRate);
 		
-		if(angle > 0) {
+		/*
+		 * if(angle > 0) {
+		 
 			turnRight();
 		}
 		else if (angle < 0) {
-			turnLeft();
-			
+			turnLeft();	
 		}
 		else if(angle == 0) {
 			angle0();
-				
-		}		
+		}*/
 	}
 	
 	public void stop() {

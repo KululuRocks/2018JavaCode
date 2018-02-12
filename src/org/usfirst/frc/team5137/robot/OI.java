@@ -8,7 +8,10 @@ import org.usfirst.frc.team5137.commands.TankDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
+/*	The OI class is where all controllers are listed
+ * It also functions to assign buttons and toggles 
+ */
+// the Joysticks and JoystickButtons must be labeled public so other systems can access them.
 public class OI {
 
 	public Joystick jackBlack;
