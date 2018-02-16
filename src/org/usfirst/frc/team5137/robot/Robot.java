@@ -6,10 +6,14 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team5137.robot;
-import org.usfirst.frc.team5137.commands.AutonoumousCommandGroup;
+import org.usfirst.frc.team5137.commandGroups.AutonoumousCommandGroup;
 import org.usfirst.frc.team5137.commands.DriveStraight;
+import org.usfirst.frc.team5137.commandGroups.EncoderAuto;
 import org.usfirst.frc.team5137.subsystems.DriveBase;
+import org.usfirst.frc.team5137.subsystems.IntakeNoun;
+import org.usfirst.frc.team5137.subsystems.Lift;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -24,87 +28,83 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
+
+/*	The Robot class acts as a kind of hub for all other classes, including subsystems and commands. 
+ * For example, by stating that the DriveBase is static and public, 
+ * it allows the whole robot program to find it.  With out doing this, no class could find another.
+ */
+
 public class Robot extends TimedRobot {
-	public static DriveBase driveBase; 
-	public static OI oi;	
-	/*	The Robot class acts as a kind of hub for all other classes, including subsystems and commands. 
-	 * For example, by stating that the DriveBase is static and public, 
-	 * it allows the whole robot program to find it.  With out doing this, no class could find another.
-	 */
 	
-	public static Timer timer = new Timer(); 
+	public static DriveBase driveBase; 
+	public static Lift lift;
+	public static IntakeNoun intakeNoun;
+	
+	public static OI oi;	
+	
+	public static Timer timer; 
 	/* This creates a timer that the whole Robot can see and can be used to run commands off of
 	 i.e. the AutoDrive command does.
 	*/
 	
+	public static String gameData;
+	
 	Command autonomousCommand; 
-	// This tells the Robot that there is an autonomousCommand 
 	SendableChooser<Command> autoChooser;
 	
 	/*	robotInit() is the first thing the robot does on boot up
 	 it is used to declare what subsystems and the OI are and to calibrate any gyros 
 	 and start timers
-	 */
+	*/
 	public void robotInit() {
-		
 		RobotMap.init();
-	   	RobotMap.gyro.calibrate();
-	   	
-	   	/*The above 2 lines are required if the gyro is being used by any system,
-	   	 If it is not in place, the gyro is basically never turned on or accessed.
-	   	 */
+	   	RobotMap.gyro.calibrate(); // you need this if you're using the gyro
 	   	 
 	   	driveBase = new DriveBase();
-		oi = new OI();
-		// Declaring that the driveBase, or any subsystem including the OI
-		//is a new subsystem is required during the init process or they won't work
+	   	lift = new Lift();
+	   	intakeNoun = new IntakeNoun();
+	   	
+		oi = new OI(); // gotta go after all the subsystems!
+		timer = new Timer();
 		
-		//autonomousCommand = new AutonoumousCommandGroup(); 
-		// declares what the autonomous period will run for its command!
+		// adds autonomous options and displays them on the SmartDashboard
 		autoChooser = new SendableChooser<Command>();
 		autoChooser.addDefault("Default program", new AutonoumousCommandGroup());
 		autoChooser.addObject("Drive Forever", new DriveStraight());
-		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
-				
+		autoChooser.addObject("Encoder auto", new EncoderAuto());
+		SmartDashboard.putData("Autonomous mode chooser", autoChooser);		
 	}
 	
 	public static void resetTimer() {
 		timer.reset();
-	}
+	}	
+	
 	/*The below code instructs the robot what to do when Autonomous mode is first pressed
 	 in this case, it tells it to run the autonomous default command and to reset and start the timer
-	 */
-	public void autonomousInit() {
+	*/
+public void autonomousInit() {
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		autonomousCommand = (Command) autoChooser.getSelected();
 		autonomousCommand.start();
-		//if (autonomousCommand != null) autonomousCommand.start();
 		timer.reset();
-		timer.start();
-
-		
+		timer.start();		
 	}
 
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		//This runs the default command defined in robotInit()
 		
 	}
 	
-	//This tells the robot to not run the autonomous command 
+	// You have to tell the robot to stop doing autonomous stuff
 	public void teleopInit() {
-		if (autonomousCommand != null)
-		autonomousCommand.cancel();
-		   
+		if (autonomousCommand != null) autonomousCommand.cancel();
 	}
-	/*
-	 * teleopPeriodic runs any default commands defined in any subsystems, 
+	
+	/* teleopPeriodic runs any default commands defined in any subsystems, 
 	 * typically, only the driveBase/Train has one set
 	 */
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		
+		Scheduler.getInstance().run();		
 	}
 
-	public void testPeriodic() {
-	}
 }

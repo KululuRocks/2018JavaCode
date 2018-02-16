@@ -4,9 +4,8 @@ import org.usfirst.frc.team5137.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveStraight extends Command {
-
-	/* This command is practically the same as AutoDrive with out the timer based code,
-	The point of it is to check the gyro during teleOp to help with debugging
+	/* This command is practically the same as AutoDrive without the timer based code,
+	The point of it is to check the gyro during teleop to help with debugging
 	*/
 	
 	public DriveStraight() {
@@ -18,15 +17,12 @@ public class DriveStraight extends Command {
 	}
 	
 	protected void interrupted() {
-		Robot.driveBase.stop();
+		end();
 	}
 	
-	protected void stop() {
-		Robot.driveBase.stop();
-		
+	protected void end() {
+		Robot.driveBase.stop();	
 	}
-	
-	
 	protected boolean isFinished() {
 		return false;
 	}
