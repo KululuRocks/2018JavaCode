@@ -5,7 +5,7 @@ import org.usfirst.frc.team5137.commands.DriveSidewaysWithEncoder;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class EncoderAuto extends CommandGroup {
+public class EncoderAuto extends CommandGroup implements RequiresGameData {
 
 	private DriveForwardWithEncoder driveForward1;
 	private DriveSidewaysWithEncoder driveSideways;
@@ -24,7 +24,5 @@ public class EncoderAuto extends CommandGroup {
 	public void setGameData(String gameData) {
 		driveSideways.setGameData(gameData);
 	}
-	
-	
 	
 }

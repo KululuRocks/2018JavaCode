@@ -6,9 +6,10 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team5137.robot;
-import org.usfirst.frc.team5137.commandGroups.AutonoumousCommandGroup;
 import org.usfirst.frc.team5137.commands.DriveStraight;
+import org.usfirst.frc.team5137.commands.RaiseIntake;
 import org.usfirst.frc.team5137.commandGroups.EncoderAuto;
+import org.usfirst.frc.team5137.commandGroups.RequiresGameData;
 import org.usfirst.frc.team5137.commandGroups.TimerAutoLeft;
 import org.usfirst.frc.team5137.subsystems.DriveBase;
 import org.usfirst.frc.team5137.subsystems.IntakeNoun;
@@ -76,10 +77,11 @@ public class Robot extends TimedRobot {
 		camera.setFPS(30);
 		// adds autonomous options and displays them on the SmartDashboard
 		autoChooser = new SendableChooser<Command>();
-		autoChooser.addDefault("Default program", new AutonoumousCommandGroup());
+		autoChooser.addDefault("Default program", new TimerAutoLeft());
 		autoChooser.addObject("Drive Forever", new DriveStraight());
 		autoChooser.addObject("Encoder auto", new EncoderAuto());
 		autoChooser.addObject("Timer Auto Left", new TimerAutoLeft());
+		autoChooser.addObject("Test timed subsystem", new RaiseIntake(2));
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);		
 	}
 	
@@ -101,9 +103,9 @@ public class Robot extends TimedRobot {
 		    gameData = DriverStation.getInstance().getGameSpecificMessage();
 		}
 		autonomousCommand = (Command) autoChooser.getSelected();
-		if (autonomousCommand instanceof EncoderAuto)
+		if (autonomousCommand instanceof RequiresGameData)
 		{
-			((EncoderAuto)autonomousCommand).setGameData(gameData);
+			((RequiresGameData)autonomousCommand).setGameData(gameData);
 		}
 		autonomousCommand.start();
 		timer.reset();
