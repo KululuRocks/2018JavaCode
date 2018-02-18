@@ -1,27 +1,24 @@
 package org.usfirst.frc.team5137.commands;
 
 import org.usfirst.frc.team5137.robot.Robot;
-import org.usfirst.frc.team5137.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveForwardWithEncoder extends Command {
+public class DriveForwardWithTimer extends Command {
 
-	Encoder leftEncoder = RobotMap.leftEncoder;
-	
-	double distance;
+	double howLong;
 	boolean isFinished;
+	boolean lastCommand;
 	
-	public DriveForwardWithEncoder(double distance) {
+	public DriveForwardWithTimer(double howLong, boolean lastCommand) {
 		requires(Robot.driveBase);
-		this.distance = distance;
+		this.howLong = howLong;
+		this.lastCommand = lastCommand;
 		isFinished = false;
-		leftEncoder.reset();
 	}
 	
 	public void execute() {
-		if (leftEncoder.getDistance() < distance) {
+		if (Robot.timer.get() < howLong) {
 			Robot.driveBase.driveStraight();
 		}
 		else {
@@ -33,12 +30,15 @@ public class DriveForwardWithEncoder extends Command {
 		end();
 	}
 	
+	protected void end() {
+		Robot.timer.reset();
+		Robot.timer.start();
+		Robot.driveBase.stop();
+		if (lastCommand) Robot.done = true;
+	}
+
 	protected boolean isFinished() {
 		return isFinished;
-	}
-	
-	protected void end() {
-		Robot.driveBase.stop();
 	}
 	
 }

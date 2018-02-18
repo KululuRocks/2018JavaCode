@@ -20,7 +20,7 @@ public class AutoDrive extends Command {
 		 * 3. it is running a specific method in the DriveBase while the time is below 2 seconds
 		 */
 		else if (Robot.timer.get() < 4) {
-			Robot.driveBase.lateralDrive();
+			Robot.driveBase.lateralDrive(.25);
 		}
 		// When the timer is between 2 and 4 seconds, it will run this specific method in the drive base
 		else {

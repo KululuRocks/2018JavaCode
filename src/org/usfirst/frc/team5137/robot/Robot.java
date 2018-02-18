@@ -9,10 +9,13 @@ package org.usfirst.frc.team5137.robot;
 import org.usfirst.frc.team5137.commandGroups.AutonoumousCommandGroup;
 import org.usfirst.frc.team5137.commands.DriveStraight;
 import org.usfirst.frc.team5137.commandGroups.EncoderAuto;
+import org.usfirst.frc.team5137.commandGroups.TimerAutoLeft;
 import org.usfirst.frc.team5137.subsystems.DriveBase;
 import org.usfirst.frc.team5137.subsystems.IntakeNoun;
 import org.usfirst.frc.team5137.subsystems.Lift;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -40,6 +43,7 @@ public class Robot extends TimedRobot {
 	public static Lift lift;
 	public static IntakeNoun intakeNoun;
 	
+	public static UsbCamera camera;
 	public static OI oi;	
 	
 	public static Timer timer; 
@@ -48,6 +52,7 @@ public class Robot extends TimedRobot {
 	*/
 	
 	public static String gameData;
+	public static boolean done = false;
 	
 	Command autonomousCommand; 
 	SendableChooser<Command> autoChooser;
@@ -66,25 +71,40 @@ public class Robot extends TimedRobot {
 	   	
 		oi = new OI(); // gotta go after all the subsystems!
 		timer = new Timer();
-		
+		camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(320, 240);
+		camera.setFPS(30);
 		// adds autonomous options and displays them on the SmartDashboard
 		autoChooser = new SendableChooser<Command>();
 		autoChooser.addDefault("Default program", new AutonoumousCommandGroup());
 		autoChooser.addObject("Drive Forever", new DriveStraight());
 		autoChooser.addObject("Encoder auto", new EncoderAuto());
+		autoChooser.addObject("Timer Auto Left", new TimerAutoLeft());
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);		
-	}
-	
-	public static void resetTimer() {
-		timer.reset();
 	}
 	
 	/*The below code instructs the robot what to do when Autonomous mode is first pressed
 	 in this case, it tells it to run the autonomous default command and to reset and start the timer
 	*/
 	public void autonomousInit() {
+		timer.reset();
+		timer.start();
+		int retries = 100;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		while (gameData.length() < 2 && retries > 0) {
+		    retries--;
+		    try {
+		        Thread.sleep(5);
+		    } catch (InterruptedException ie) {
+		        // Just ignore the interrupted exception
+		    }
+		    gameData = DriverStation.getInstance().getGameSpecificMessage();
+		}
 		autonomousCommand = (Command) autoChooser.getSelected();
+		if (autonomousCommand instanceof EncoderAuto)
+		{
+			((EncoderAuto)autonomousCommand).setGameData(gameData);
+		}
 		autonomousCommand.start();
 		timer.reset();
 		timer.start();		
@@ -92,6 +112,11 @@ public class Robot extends TimedRobot {
 
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		if (done) {
+			autonomousCommand = new TimerAutoLeft();
+			autonomousCommand.start();
+			done = false;
+		}
 	}
 	
 	// You have to tell the robot to stop doing autonomous stuff

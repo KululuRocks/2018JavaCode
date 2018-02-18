@@ -15,20 +15,20 @@ public class DriveSidewaysWithEncoder extends Command {
 	String gameData;
 	
 	public DriveSidewaysWithEncoder(double distance) {
+		requires(Robot.driveBase);
 		this.distance = distance;
 		isFinished = false;
 		slideEncoder.reset();
 	}
 	
 	public void execute() {
-		gameData = Robot.gameData;
 		if (slideEncoder.getDistance() < distance) {
 			if(gameData.length() > 0) {
 			  if(gameData.charAt(0) == 'L')
 			  {
-				Robot.driveBase.slideLeft();
+				Robot.driveBase.lateralDrive(-.75);
 			  } else {
-				Robot.driveBase.slideRight();
+				Robot.driveBase.lateralDrive(.75);
 			  }
             }
 		}
@@ -47,6 +47,10 @@ public class DriveSidewaysWithEncoder extends Command {
 	
 	protected void end() {
 		Robot.driveBase.stop();
+	}
+	
+	public void setGameData(String gameData) {
+		this.gameData = gameData;
 	}
 	
 }

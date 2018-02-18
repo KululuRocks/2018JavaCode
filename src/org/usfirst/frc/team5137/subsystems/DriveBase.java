@@ -118,39 +118,16 @@ public class DriveBase extends Subsystem {
 		hotWheels.arcadeDrive(speed, turnRate);
 	}
 	
-	public void slideLeft() {
-		slideDriveMotor.set(-1);
-	}
-	
-	public void slideRight() {
-		slideDriveMotor.set(1);
-	}
-	
-	public void turnRight() {
-		rightDriveMotor.set(.20);
-		leftDriveMotor.set(-.20);
-	}
-	public void turnLeft() {
-		rightDriveMotor.set(-.20);
-		leftDriveMotor.set(.20);	
-	}
-
-	public void lateralDrive() {
-		double angle = gyro.getAngle();
-		double speed = .25;
+	public void setSlideMotor(double speed) {
 		slideDriveMotor.set(speed);
-		
-		if(angle > 0) {
-			turnRight();
-		}
-		else if (angle < 0) {
-			turnLeft();
-		}
-		else {
-			rightDriveMotor.set(0);
-			leftDriveMotor.set(0);
-		}
 	}
+	
+	public void lateralDrive(double speed) {
+		double turnRate = turnRate(gyro.getAngle());
+		slideDriveMotor.set(speed);
+		hotWheels.arcadeDrive(0, turnRate);
+	}
+	
 	
 	public void stop() {
 		slideDriveMotor.set(0);
