@@ -29,12 +29,12 @@ public class RobotMap {
 		leftDriveMotor = new Spark(0);
 		leftDriveMotor.setInverted(true);
 		
-		rightDriveMotor = new Spark(1); // change back to 2 for new bot
+		rightDriveMotor = new Spark(2); // change back to 2 for new bot
 		rightDriveMotor.setInverted(true);
 		
 		hotWheels = new DifferentialDrive(leftDriveMotor, rightDriveMotor);
 		
-		slideDriveMotor = new Spark(2); // change back to 1 for new bot
+		slideDriveMotor = new Spark(1); // change back to 1 for new bot
 		
 		liftMotor = new Spark(3); // FIX THIS PORT
 		

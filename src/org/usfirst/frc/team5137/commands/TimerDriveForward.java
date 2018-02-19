@@ -10,15 +10,15 @@ public class TimerDriveForward extends Command {
 	Timer timer;
 	boolean timerRunning;
 	double howLong;
-	boolean lastCommand;
+	double speed;
 	boolean isFinished;
 	
-	public TimerDriveForward(double howLong, boolean lastCommand) {
+	public TimerDriveForward(double howLong, double speed) {
 		requires(Robot.driveBase);
 		timer = new Timer();
 		timerRunning = false;
 		this.howLong = howLong;
-		this.lastCommand = lastCommand;
+		this.speed = speed;
 		isFinished = false;
 	}
 	
@@ -29,7 +29,7 @@ public class TimerDriveForward extends Command {
 			timerRunning = true;
 		}
 		if (timer.get() < howLong) {
-			Robot.driveBase.driveStraight(.65);
+			Robot.driveBase.driveStraight(speed);
 		}
 		else {
 			isFinished = true;
@@ -42,7 +42,6 @@ public class TimerDriveForward extends Command {
 	
 	protected void end() {
 		Robot.driveBase.stop();
-		if (lastCommand) Robot.done = true;
 	}
 
 	protected boolean isFinished() {

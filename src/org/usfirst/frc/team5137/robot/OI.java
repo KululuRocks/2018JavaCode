@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5137.robot;
 
+import org.usfirst.frc.team5137.commandGroups.Climb;
 import org.usfirst.frc.team5137.commands.IntakeVerb;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.LowerLift;
@@ -23,6 +24,7 @@ public class OI {
 	public JoystickButton lowerIntakeButton;
 	public JoystickButton intakeButton;
 	public JoystickButton outtakeButton;
+	public JoystickButton climbButton;
 	
 	/*
 	public JoystickButton arcadeModeBumper;
@@ -34,16 +36,16 @@ public class OI {
 	public OI() {
 		jackBlack = new Joystick(0);
 		
-		raiseLiftButton = new JoystickButton(jackBlack, 13); // up
+		raiseLiftButton = new JoystickButton(jackBlack, 3); // X
 		raiseLiftButton.whileHeld(new RaiseLift());
 		
-		lowerLiftButton = new JoystickButton(jackBlack, 14); // down
+		lowerLiftButton = new JoystickButton(jackBlack, 4); // Y
 		lowerLiftButton.whileHeld(new LowerLift());
 		
-		raiseIntakeButton = new JoystickButton(jackBlack, 3); // X
+		raiseIntakeButton = new JoystickButton(jackBlack, 13); // up DOESN'T EXIST
 		raiseIntakeButton.whileHeld(new RaiseIntake());
 		
-		lowerIntakeButton = new JoystickButton(jackBlack, 4); // Y
+		lowerIntakeButton = new JoystickButton(jackBlack, 14); // down DOESN'T EXIST
 		lowerIntakeButton.whileHeld(new LowerIntake());
 		
 		intakeButton = new JoystickButton(jackBlack, 1); // A
@@ -51,6 +53,9 @@ public class OI {
 		
 		outtakeButton = new JoystickButton(jackBlack, 2); // B
 		outtakeButton.whileHeld(new Outtake());
+		
+		climbButton = new JoystickButton(jackBlack, 5); // IDK WHAT THIS BUTTON IS
+		climbButton.whenPressed(new Climb());
 		
 		// toggle drive mode code. unnecessary bc tank drive is trash
 		/*
