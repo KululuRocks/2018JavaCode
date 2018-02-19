@@ -1,16 +1,11 @@
 package org.usfirst.frc.team5137.robot;
 
-import org.usfirst.frc.team5137.commands.ArcadeDrive;
-import org.usfirst.frc.team5137.commands.DisplayValues;
-import org.usfirst.frc.team5137.commands.DriveStraight;
 import org.usfirst.frc.team5137.commands.IntakeVerb;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.LowerLift;
 import org.usfirst.frc.team5137.commands.Outtake;
 import org.usfirst.frc.team5137.commands.RaiseIntake;
 import org.usfirst.frc.team5137.commands.RaiseLift;
-import org.usfirst.frc.team5137.commands.ResetGyro;
-import org.usfirst.frc.team5137.commands.TankDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

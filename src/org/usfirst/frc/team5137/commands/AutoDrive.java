@@ -12,7 +12,7 @@ public class AutoDrive extends Command {
 	
 	public void execute() { //what the command will do when called
 		if (Robot.timer.get() < 2) { 
-			Robot.driveBase.driveStraight();	
+			Robot.driveBase.driveStraight(.5);	
 		}
 		/* 3 things are happening here
 		 * 1. the command is importing the timer from the Robot Class
@@ -20,7 +20,7 @@ public class AutoDrive extends Command {
 		 * 3. it is running a specific method in the DriveBase while the time is below 2 seconds
 		 */
 		else if (Robot.timer.get() < 4) {
-			Robot.driveBase.lateralDrive();
+			Robot.driveBase.lateralDrive(.5);
 		}
 		// When the timer is between 2 and 4 seconds, it will run this specific method in the drive base
 		else {

@@ -29,30 +29,30 @@ public class RobotMap {
 		leftDriveMotor = new Spark(0);
 		leftDriveMotor.setInverted(true);
 		
-		rightDriveMotor = new Spark(1);
+		rightDriveMotor = new Spark(1); // change back to 2 for new bot
 		rightDriveMotor.setInverted(true);
 		
 		hotWheels = new DifferentialDrive(leftDriveMotor, rightDriveMotor);
 		
-		slideDriveMotor = new Spark(2);
+		slideDriveMotor = new Spark(2); // change back to 1 for new bot
 		liftMotor = new Spark(3); // FIX THIS PORT
 		
 		rotateIntakeMotor = new Spark(4); // AND THIS ONE
 		intakeMotor = new Spark(5); // AND ALSO THIS ONE
 	
-    		gyro = new ADXRS450_Gyro();
+    	gyro = new ADXRS450_Gyro();
     		
-    		leftEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
-    		leftEncoder.setDistancePerPulse(5); // TOTALLY arbitrary
-    		leftEncoder.setMinRate(10); // also arbitrary
-    		
-    		rightEncoder = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
-    		rightEncoder.setDistancePerPulse(5);
-    		rightEncoder.setMinRate(10);
-    		
-    		slideEncoder = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
-    		slideEncoder.setDistancePerPulse(5);
-    		slideEncoder.setMinRate(10);
+    	leftEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);
+    	leftEncoder.setDistancePerPulse(5); // TOTALLY arbitrary
+    	leftEncoder.setMinRate(10); // also arbitrary
+    	
+    	rightEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+    	rightEncoder.setDistancePerPulse(5);
+    	rightEncoder.setMinRate(10);
+    	
+    	slideEncoder = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+    	slideEncoder.setDistancePerPulse(5);
+    	slideEncoder.setMinRate(10);
 	}
 	
 	

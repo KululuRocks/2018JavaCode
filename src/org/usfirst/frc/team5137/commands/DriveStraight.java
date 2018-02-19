@@ -13,7 +13,7 @@ public class DriveStraight extends Command {
 	}
 	
 	public void execute() {
-		Robot.driveBase.driveStraight();
+		Robot.driveBase.driveStraight(.5);
 	}
 	
 	protected void interrupted() {

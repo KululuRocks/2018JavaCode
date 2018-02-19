@@ -6,31 +6,25 @@ import org.usfirst.frc.team5137.robot.RobotMap;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveSidewaysWithEncoder extends Command {
+public class EncoderDriveForward extends Command {
 
-	Encoder slideEncoder = RobotMap.slideEncoder;
+	Encoder leftEncoder = RobotMap.leftEncoder;
 	
 	double distance;
+	double speed;
 	boolean isFinished;
-	String gameData;
 	
-	public DriveSidewaysWithEncoder(double distance) {
+	public EncoderDriveForward(double distance, double speed) {
+		requires(Robot.driveBase);
 		this.distance = distance;
+		this.speed = speed;
 		isFinished = false;
-		slideEncoder.reset();
+		leftEncoder.reset();
 	}
 	
 	public void execute() {
-		gameData = Robot.gameData;
-		if (slideEncoder.getDistance() < distance) {
-			if(gameData.length() > 0) {
-			  if(gameData.charAt(0) == 'L')
-			  {
-				Robot.driveBase.slideLeft();
-			  } else {
-				Robot.driveBase.slideRight();
-			  }
-            }
+		if (leftEncoder.getDistance() < distance) {
+			Robot.driveBase.driveStraight(speed);
 		}
 		else {
 			isFinished = true;
