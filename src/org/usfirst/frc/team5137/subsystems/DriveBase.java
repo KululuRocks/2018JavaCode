@@ -112,10 +112,9 @@ public class DriveBase extends Subsystem {
 		return turnRate;	
 	}
 	
-	public void driveStraight() {
+	public void driveStraight(double speed) {
 		double turnRate = turnRate(gyro.getAngle());
-		double speed = -0.65;
-		hotWheels.arcadeDrive(speed, turnRate);
+		hotWheels.arcadeDrive(-speed, turnRate); // negative bc gyro is facing opposite direction
 	}
 	
 	public void setSlideMotor(double speed) {

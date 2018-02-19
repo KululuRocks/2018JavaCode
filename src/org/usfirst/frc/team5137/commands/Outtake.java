@@ -11,6 +11,7 @@ public class Outtake extends Command {
 	double howLong;
 	boolean autonomous;
 	boolean timerRunning;
+	boolean willRun;
 	boolean isFinished;
 	
 	public Outtake() {
@@ -25,11 +26,12 @@ public class Outtake extends Command {
 		this.howLong = howLong;
 		autonomous = true;
 		timerRunning = false;
+		willRun = true;
 		isFinished = false;
 	}
 	
 	protected void execute() {
-		if (autonomous) {
+		if (autonomous && willRun) {
 			if (!timerRunning) {
 				timer.reset();
 				timer.start();
@@ -40,8 +42,10 @@ public class Outtake extends Command {
 			} else {
 				isFinished = true;
 			}
-		} else {
+		} else if (!autonomous) {
 			Robot.intakeNoun.outtake();
+		} else {
+			isFinished = true;
 		}
 	}
 	
@@ -56,5 +60,9 @@ public class Outtake extends Command {
 	protected boolean isFinished() {
 		return isFinished;
 	} 
+	
+	public void setWillRun(boolean willRun) {
+		this.willRun = willRun;
+	}
 	
 }

@@ -11,11 +11,11 @@ public class IntakeNoun extends Subsystem {
 	Spark intakeMotor = RobotMap.intakeMotor;
 	
 	public void raiseIntake() {
-		rotateIntakeMotor.set(1);
+		rotateIntakeMotor.set(.1);
 	}
 	
 	public void lowerIntake() {
-		rotateIntakeMotor.set(-1);
+		rotateIntakeMotor.set(-.1);
 	}
 	
 	public void intake() {

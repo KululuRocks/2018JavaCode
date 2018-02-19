@@ -5,20 +5,20 @@ import org.usfirst.frc.team5137.robot.Robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveForwardWithTimer extends Command {
+public class TimerDriveSideways extends Command {
 
 	Timer timer;
 	boolean timerRunning;
 	double howLong;
-	boolean lastCommand;
+	double speed;
 	boolean isFinished;
 	
-	public DriveForwardWithTimer(double howLong, boolean lastCommand) {
+	public TimerDriveSideways(double howLong, double speed) {
 		requires(Robot.driveBase);
 		timer = new Timer();
 		timerRunning = false;
 		this.howLong = howLong;
-		this.lastCommand = lastCommand;
+		this.speed = speed;
 		isFinished = false;
 	}
 	
@@ -29,7 +29,7 @@ public class DriveForwardWithTimer extends Command {
 			timerRunning = true;
 		}
 		if (timer.get() < howLong) {
-			Robot.driveBase.driveStraight();
+			Robot.driveBase.lateralDrive(speed);
 		}
 		else {
 			isFinished = true;
@@ -42,7 +42,6 @@ public class DriveForwardWithTimer extends Command {
 	
 	protected void end() {
 		Robot.driveBase.stop();
-		if (lastCommand) Robot.done = true;
 	}
 
 	protected boolean isFinished() {
