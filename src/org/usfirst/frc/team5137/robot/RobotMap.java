@@ -56,5 +56,4 @@ public class RobotMap {
     		slideEncoder.setMinRate(10);
 	}
 	
-	
 }

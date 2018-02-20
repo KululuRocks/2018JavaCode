@@ -42,10 +42,10 @@ public class OI {
 		lowerLiftButton = new JoystickButton(jackBlack, 4); // Y
 		lowerLiftButton.whileHeld(new LowerLift());
 		
-		raiseIntakeButton = new JoystickButton(jackBlack, 13); // up DOESN'T EXIST
+		raiseIntakeButton = new JoystickButton(jackBlack, 5); // left bumper
 		raiseIntakeButton.whileHeld(new RaiseIntake());
 		
-		lowerIntakeButton = new JoystickButton(jackBlack, 14); // down DOESN'T EXIST
+		lowerIntakeButton = new JoystickButton(jackBlack, 6); // right bumper
 		lowerIntakeButton.whileHeld(new LowerIntake());
 		
 		intakeButton = new JoystickButton(jackBlack, 1); // A
@@ -54,7 +54,7 @@ public class OI {
 		outtakeButton = new JoystickButton(jackBlack, 2); // B
 		outtakeButton.whileHeld(new Outtake());
 		
-		climbButton = new JoystickButton(jackBlack, 5); // IDK WHAT THIS BUTTON IS
+		climbButton = new JoystickButton(jackBlack, 7); // select
 		climbButton.whenPressed(new Climb());
 		
 		// toggle drive mode code. unnecessary bc tank drive is trash
