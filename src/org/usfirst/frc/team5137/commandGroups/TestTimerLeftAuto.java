@@ -7,6 +7,9 @@ import org.usfirst.frc.team5137.commands.TimerDriveSideways;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/*
+ * Test autonomous routine to see if the timer driving code works.
+ */
 public class TestTimerLeftAuto extends CommandGroup {
 
 	public TestTimerLeftAuto() {

@@ -6,6 +6,10 @@ import org.usfirst.frc.team5137.robot.RobotMap;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
+/*
+ * Uses encoder on the center wheel to slide left or right by a 
+ * given distance at a given speed. Didn't work.
+ */
 public class EncoderDriveSideways extends Command {
 
 	Encoder slideEncoder = RobotMap.slideEncoder;
@@ -24,13 +28,11 @@ public class EncoderDriveSideways extends Command {
 	}
 	
 	public void execute() {
-		if (slideEncoder.getDistance() < distance) {
+		while (slideEncoder.getDistance() < distance) {
 			if (isDriveLeft) Robot.driveBase.lateralDrive(-speed);
 			else Robot.driveBase.lateralDrive(speed);
 		}
-		else {
-			isFinished = true;
-		}
+		isFinished = true;
 	}
 	
 	protected void interrupted() {

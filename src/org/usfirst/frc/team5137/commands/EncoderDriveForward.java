@@ -6,6 +6,11 @@ import org.usfirst.frc.team5137.robot.RobotMap;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
+/*
+ * Drives forward a given distance and speed using the driveBase's 
+ * left motor encoder. Could've used the right motor encoder, 
+ * doesn't matter. Not sure how to drive backwards.
+ */
 public class EncoderDriveForward extends Command {
 
 	Encoder leftEncoder = RobotMap.leftEncoder;
@@ -23,12 +28,10 @@ public class EncoderDriveForward extends Command {
 	}
 	
 	public void execute() {
-		if (leftEncoder.getDistance() < distance) {
+		while (Math.abs(leftEncoder.getDistance()) < distance) {
 			Robot.driveBase.driveStraight(speed);
 		}
-		else {
-			isFinished = true;
-		}
+		//isFinished = true;
 	}
 	
 	protected void interrupted() {
@@ -40,7 +43,13 @@ public class EncoderDriveForward extends Command {
 	}
 	
 	protected void end() {
+		leftEncoder.reset();
 		Robot.driveBase.stop();
+	}
+	
+	public void resetEncoder() {
+		leftEncoder.reset();
+		//isFinished = false;
 	}
 	
 }

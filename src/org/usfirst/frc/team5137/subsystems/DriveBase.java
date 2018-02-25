@@ -10,13 +10,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveBase extends Subsystem {
-	// Lines 14-18 are used to call all required bits into the subsystem and give them names to respond to
+	// Lines 14-19 are used to call all required bits into the subsystem and give them names to respond to
 	Spark leftDriveMotor = RobotMap.leftDriveMotor;
 	Spark rightDriveMotor = RobotMap.rightDriveMotor;
 	Spark slideDriveMotor = RobotMap.slideDriveMotor;
-	ADXRS450_Gyro gyro = RobotMap.gyro;
 	DifferentialDrive hotWheels = RobotMap.hotWheels;
 	
+	ADXRS450_Gyro gyro = RobotMap.gyro;
+
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDrive());
 	}
@@ -33,12 +34,13 @@ public class DriveBase extends Subsystem {
 		return adjustedJoystick;
 	}
 	
-	/* Arcade Drive is a form of driving...
+	/* 
+	 * Arcade Drive is a form of driving...
 	 * That allows one joystick on a controller to control both forwards/backwards and left and right (via SlideDrive)
 	 * and delegates rotation to a different joystick
 	 */
 	public void arcadeDrive(Joystick jackBlack) {
-		/*
+	   /*
         * x' = a(x^b) + (1-a)x
         *
         * x' is the scaled output value
@@ -83,7 +85,8 @@ public class DriveBase extends Subsystem {
         slideDriveMotor.set(exponentialSlideDrive);
 	}
 	
-	/* Tank drive is a form of driving...
+	/* 
+	 * Tank drive is a form of driving...
 	 * That disables the slide drive and assigns the drive motors to
 	 * a joystick each.
 	 */
@@ -126,7 +129,6 @@ public class DriveBase extends Subsystem {
 		slideDriveMotor.set(speed);
 		hotWheels.arcadeDrive(0, turnRate);
 	}
-	
 	
 	public void stop() {
 		slideDriveMotor.set(0);

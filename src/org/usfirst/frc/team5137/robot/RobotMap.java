@@ -1,16 +1,17 @@
 package org.usfirst.frc.team5137.robot;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
 /* The robot map is used to define and categorize all things on the robot...
  * This includes: motors, gyros and specialty things such as the
  * DifferentialDrive- This allows the drive motors (not the slidedrive) to 
  * function together and do things such as arcade drive and tank drive 
  * more readily as seen in the DriveBase code.
  */
-// like in OI, all motors and such must be public to be discoverable by other subsystems
 public class RobotMap {
 
 	public static Spark leftDriveMotor;
@@ -24,36 +25,42 @@ public class RobotMap {
 	public static Encoder leftEncoder;
 	public static Encoder rightEncoder;
 	public static Encoder slideEncoder;
+	public static DigitalInput upperLimitSwitch;
+	public static DigitalInput lowerLimitSwitch;
 	
 	public static void init() {
 		leftDriveMotor = new Spark(0);
 		leftDriveMotor.setInverted(true);
 		
-		rightDriveMotor = new Spark(2); // change back to 2 for new bot
+		rightDriveMotor = new Spark(2); // 2018 bot is 2, 2017 bot is 1
 		rightDriveMotor.setInverted(true);
 		
 		hotWheels = new DifferentialDrive(leftDriveMotor, rightDriveMotor);
 		
-		slideDriveMotor = new Spark(1); // change back to 1 for new bot
+		slideDriveMotor = new Spark(1); // 2018 bot is 1, 2017 bot is 2
 		
-		liftMotor = new Spark(3); // FIX THIS PORT
+		liftMotor = new Spark(3);
+		liftMotor.setInverted(true);
 		
-		rotateIntakeMotor = new Spark(4); // AND THIS ONE
-		intakeMotor = new Spark(5); // AND ALSO THIS ONE
+		rotateIntakeMotor = new Spark(4); 
+		intakeMotor = new Spark(5); 
 	
     		gyro = new ADXRS450_Gyro();
     		
-    		leftEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);
-    		leftEncoder.setDistancePerPulse(5); // TOTALLY arbitrary
-    		leftEncoder.setMinRate(10); // also arbitrary
+    		leftEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
+    		leftEncoder.setDistancePerPulse(.1173); 
+    		leftEncoder.setMinRate(10);
     		
-    		rightEncoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
-    		rightEncoder.setDistancePerPulse(5);
+    		rightEncoder = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+    		rightEncoder.setDistancePerPulse(.1173);
     		rightEncoder.setMinRate(10);
     		
-    		slideEncoder = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
-    		slideEncoder.setDistancePerPulse(5);
+    		slideEncoder = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
+    		slideEncoder.setDistancePerPulse(.1173);
     		slideEncoder.setMinRate(10);
+    		
+    		upperLimitSwitch = new DigitalInput(9);
+    		lowerLimitSwitch = new DigitalInput(8);
 	}
 	
 }

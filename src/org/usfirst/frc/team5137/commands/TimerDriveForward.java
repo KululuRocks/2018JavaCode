@@ -5,9 +5,14 @@ import org.usfirst.frc.team5137.robot.Robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
+/*
+ * Uses a timer to drive forward (or backward) for a given 
+ * amount of time at a given speed.
+ */
 public class TimerDriveForward extends Command {
 
 	Timer timer;
+	
 	boolean timerRunning;
 	double howLong;
 	double speed;

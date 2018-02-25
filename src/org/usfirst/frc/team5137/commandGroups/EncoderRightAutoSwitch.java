@@ -8,6 +8,9 @@ import org.usfirst.frc.team5137.commands.RaiseLift;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/*
+ * Identical to EncoderLeftAutoSwitch except on the right.
+ */
 public class EncoderRightAutoSwitch extends CommandGroup implements RequiresGameData {
 
 	private DisplayValues displayValues;
@@ -20,7 +23,7 @@ public class EncoderRightAutoSwitch extends CommandGroup implements RequiresGame
 		displayValues = new DisplayValues();
 		lowerIntake = new LowerIntake(2);
 		raiseLift = new RaiseLift(2);
-		driveForward = new EncoderDriveForward(100, .65); //ARBITRARY; fix those encoders
+		driveForward = new EncoderDriveForward(11 * 12, .65); // 11 feet
 		outtake = new Outtake(2);
 		
 		addParallel(displayValues);
@@ -30,6 +33,7 @@ public class EncoderRightAutoSwitch extends CommandGroup implements RequiresGame
      	addSequential(outtake);
 	}
 	
+	// tells outtake whether or not to run
 	public void setGameData(String gameData) {
 		if (gameData.length() > 0) {
 		    if (gameData.charAt(0) == 'R') outtake.setWillRun(true);

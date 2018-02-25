@@ -1,6 +1,9 @@
 package org.usfirst.frc.team5137.robot;
 
-import org.usfirst.frc.team5137.commandGroups.Climb;
+import org.usfirst.frc.team5137.commandGroups.ClimbPrep;
+import org.usfirst.frc.team5137.commands.ButtonPressed;
+import org.usfirst.frc.team5137.commands.ButtonReleased;
+import org.usfirst.frc.team5137.commands.EncoderDriveForward;
 import org.usfirst.frc.team5137.commands.IntakeVerb;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.LowerLift;
@@ -10,12 +13,13 @@ import org.usfirst.frc.team5137.commands.RaiseLift;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-/*	The OI class is where all controllers are listed
- * It also functions to assign buttons and toggles 
- */
-// the Joysticks and JoystickButtons must be labeled public so other systems can access them.
-public class OI {
 
+/*
+ * Everything to do with the controller and its buttons.
+ */
+public class OI {
+	
+	// I don't think these have to be public but I know it works.
 	public Joystick jackBlack;
 	
 	public JoystickButton raiseLiftButton;
@@ -24,14 +28,13 @@ public class OI {
 	public JoystickButton lowerIntakeButton;
 	public JoystickButton intakeButton;
 	public JoystickButton outtakeButton;
-	public JoystickButton climbButton;
+	public JoystickButton climbPrepButton;
+	public JoystickButton encoderTestButton;
 	
 	/*
-	public JoystickButton arcadeModeBumper;
-	public JoystickButton tankModeBumper;
-	public JoystickButton DriveStraightButton;
 	public JoystickButton resetGyro;
-	public JoystickButton displayValuesButtons; */
+	public JoystickButton displayValuesButton; 
+	*/
 	
 	public OI() {
 		jackBlack = new Joystick(0);
@@ -54,28 +57,24 @@ public class OI {
 		outtakeButton = new JoystickButton(jackBlack, 2); // B
 		outtakeButton.whileHeld(new Outtake());
 		
-		climbButton = new JoystickButton(jackBlack, 7); // select
-		climbButton.whenPressed(new Climb());
+		climbPrepButton = new JoystickButton(jackBlack, 7); // select
+		climbPrepButton.whenPressed(new ClimbPrep());
 		
-		// toggle drive mode code. unnecessary bc tank drive is trash
+		EncoderDriveForward edf = new EncoderDriveForward(6, .6);
+		ButtonPressed buttonPressed = new ButtonPressed(edf);
+		ButtonReleased buttonReleased = new ButtonReleased(edf);
+		encoderTestButton = new JoystickButton(jackBlack, 8); // menu
+		encoderTestButton.whileHeld(buttonPressed);
+		encoderTestButton.whenReleased(buttonReleased);
+
 		/*
-		arcadeModeBumper = new JoystickButton(jackBlack, 6);
-		arcadeModeBumper.toggleWhenPressed(new ArcadeDrive());
-		
-		tankModeBumper = new JoystickButton(jackBlack, 5);
-		tankModeBumper.toggleWhenPressed(new TankDrive()); */
-		
-		// to see if DriveStraight works
-		/*
-		DriveStraightButton = new JoystickButton(jackBlack, 1); // A button
-		DriveStraightButton.whileHeld(new DriveStraight()); */
-		
-		/*
-		resetGyro = new JoystickButton(jackBlack, 7); // Left back thingy
-		resetGyro.whileHeld(new ResetGyro()); */
+		resetGyro = new JoystickButton(jackBlack, 7); // select
+		resetGyro.whileHeld(new ResetGyro()); 
+		*/
 		
 		/*
 		displayValuesButtons = new JoystickButton(jackBlack, 9); // L_Stick in
-		displayValuesButtons.toggleWhenPressed(new DisplayValues());	*/
+		displayValuesButtons.toggleWhenPressed(new DisplayValues());	
+		*/
 	}
 }

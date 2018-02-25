@@ -4,6 +4,10 @@ import org.usfirst.frc.team5137.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/*
+ * Empty command to be placed at the end of a CommandGroup
+ * to make it formally end.
+ */
 public class Bookend extends Command {
 
 	boolean isFinished;
