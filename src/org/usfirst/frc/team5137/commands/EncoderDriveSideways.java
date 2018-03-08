@@ -5,6 +5,7 @@ import org.usfirst.frc.team5137.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
  * Uses encoder on the center wheel to slide left or right by a 
@@ -29,6 +30,7 @@ public class EncoderDriveSideways extends Command {
 	
 	public void execute() {
 		while (slideEncoder.getDistance() < distance) {
+			SmartDashboard.putNumber("slide encoder distance", slideEncoder.getDistance());
 			if (isDriveLeft) Robot.driveBase.lateralDrive(-speed);
 			else Robot.driveBase.lateralDrive(speed);
 		}

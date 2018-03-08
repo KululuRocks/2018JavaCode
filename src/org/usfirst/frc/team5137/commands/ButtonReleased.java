@@ -7,7 +7,7 @@ public class ButtonReleased extends Command {
 	EncoderDriveForward edf;
 	
 	public ButtonReleased(EncoderDriveForward edf) {
-		this.edf = edf;;
+		this.edf = edf;
 	}
 	
 	public void execute() {
