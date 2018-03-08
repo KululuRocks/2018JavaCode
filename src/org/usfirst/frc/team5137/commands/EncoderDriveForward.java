@@ -31,7 +31,7 @@ public class EncoderDriveForward extends Command {
 		while (Math.abs(leftEncoder.getDistance()) < distance) {
 			Robot.driveBase.driveStraight(speed);
 		}
-		//isFinished = true;
+		isFinished = true;
 	}
 	
 	protected void interrupted() {
@@ -49,7 +49,7 @@ public class EncoderDriveForward extends Command {
 	
 	public void resetEncoder() {
 		leftEncoder.reset();
-		//isFinished = false;
+		isFinished = false;
 	}
 	
 }
