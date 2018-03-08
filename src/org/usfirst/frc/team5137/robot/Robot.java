@@ -103,6 +103,7 @@ public class Robot extends TimedRobot {
 		    }
 		    gameData = DriverStation.getInstance().getGameSpecificMessage();
 		}
+		SmartDashboard.putString("gameData", gameData);
 		autonomousCommand = (Command) autoChooser.getSelected();
 		if (autonomousCommand instanceof RequiresGameData)
 		{
