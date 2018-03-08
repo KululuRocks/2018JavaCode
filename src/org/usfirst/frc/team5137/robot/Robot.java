@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team5137.robot;
 import org.usfirst.frc.team5137.commands.EncoderDriveForward;
+import org.usfirst.frc.team5137.commands.EncoderDriveSideways;
 import org.usfirst.frc.team5137.commandGroups.EncoderCenterAutoSwitch;
 import org.usfirst.frc.team5137.commandGroups.EncoderLeftAutoSwitch;
 import org.usfirst.frc.team5137.commandGroups.EncoderRightAutoSwitch;
@@ -81,6 +82,7 @@ public class Robot extends TimedRobot {
 		autoChooser.addObject("Switch from center", new EncoderCenterAutoSwitch());
 		autoChooser.addObject("Switch from left", new EncoderLeftAutoSwitch());
 		autoChooser.addObject("Switch from right", new EncoderRightAutoSwitch());
+		autoChooser.addObject("Slide encoder test", new EncoderDriveSideways(1 * 12, 1));
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);		
 	}
 	
@@ -92,8 +94,8 @@ public class Robot extends TimedRobot {
 		timer.reset(); // I feel like this is redundant
 		timer.start(); // but idk for sure so I'm just gonna leave it.
 		int retries = 100;
-		//gameData = DriverStation.getInstance().getGameSpecificMessage();
-		gameData = "LLR"; // For testing purposes.
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		//gameData = "LLR"; // For testing purposes.
 		while (gameData.length() < 2 && retries > 0) {
 		    retries--;
 		    try {

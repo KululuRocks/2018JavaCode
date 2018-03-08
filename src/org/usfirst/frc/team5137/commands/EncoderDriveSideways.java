@@ -29,7 +29,7 @@ public class EncoderDriveSideways extends Command {
 	}
 	
 	public void execute() {
-		while (slideEncoder.getDistance() < distance) {
+		while (Math.abs(slideEncoder.getDistance()) < distance) {
 			SmartDashboard.putNumber("slide encoder distance", slideEncoder.getDistance());
 			if (isDriveLeft) Robot.driveBase.lateralDrive(-speed);
 			else Robot.driveBase.lateralDrive(speed);
