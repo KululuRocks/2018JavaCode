@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ClimbPrep extends CommandGroup {
 
 	public ClimbPrep() {
-		addParallel(new LowerIntake());
-		addParallel(new RaiseLift());
+		addParallel(new LowerIntake(2));
+		addParallel(new RaiseLift(2));
 	}
 	
 }

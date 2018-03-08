@@ -39,6 +39,6 @@ public class EncoderLeftAutoSwitch extends CommandGroup implements RequiresGameD
 		if (gameData.length() > 0) {
 		    if (gameData.charAt(0) == 'L') outtake.setWillRun(true);
 		    else outtake.setWillRun(false);
-		}
+		} else outtake.setWillRun(false);
 	}
 }

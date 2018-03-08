@@ -38,6 +38,8 @@ public class EncoderRightAutoSwitch extends CommandGroup implements RequiresGame
 		if (gameData.length() > 0) {
 		    if (gameData.charAt(0) == 'R') outtake.setWillRun(true);
 		    else outtake.setWillRun(false);
+		} else {
+			outtake.setWillRun(false);
 		}
 	}
 	
