@@ -49,6 +49,7 @@ public class LowerLift extends Command {
 			}
 		} else {
 			if (RobotMap.lowerLimitSwitch.get()) Robot.lift.lowerLift();
+			else Robot.lift.stop();
 		}
 	}
 	

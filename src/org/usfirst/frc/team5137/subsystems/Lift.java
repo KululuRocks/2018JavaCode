@@ -10,11 +10,11 @@ public class Lift extends Subsystem {
 	Spark liftMotor = RobotMap.liftMotor;
 	
 	public void raiseLift() {
-		liftMotor.set(.5);
+		liftMotor.set(.7);
 	}
 	
 	public void lowerLift() {
-		liftMotor.set(-.5);
+		liftMotor.set(-.7);
 	}
 	
 	public void stop() {

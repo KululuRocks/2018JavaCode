@@ -11,7 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
  * and ensures it happens just once.
  */
 public class ResetGyro extends Command {
+
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
+	/*
 	ADXRS450_Gyro gyro = RobotMap.gyro;
 	
 	boolean isFinished = false;
@@ -23,6 +30,6 @@ public class ResetGyro extends Command {
 
 	protected boolean isFinished() {
 		return isFinished;
-	}
+	} */
 	
 }

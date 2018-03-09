@@ -21,7 +21,7 @@ public class RobotMap {
 	public static Spark rotateIntakeMotor;
 	public static Spark intakeMotor;
 	public static DifferentialDrive hotWheels;
-	public static ADXRS450_Gyro gyro;
+	//public static ADXRS450_Gyro gyro;
 	public static Encoder leftEncoder;
 	public static Encoder rightEncoder;
 	public static Encoder slideEncoder;
@@ -44,23 +44,24 @@ public class RobotMap {
 		
 		rotateIntakeMotor = new Spark(4); 
 		intakeMotor = new Spark(5); 
+		intakeMotor.setInverted(true);
 	
-    		gyro = new ADXRS450_Gyro();
-    		
-    		leftEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
-    		leftEncoder.setDistancePerPulse(.1173); 
-    		leftEncoder.setMinRate(10);
-    		
-    		rightEncoder = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
-    		rightEncoder.setDistancePerPulse(.1173);
-    		rightEncoder.setMinRate(10);
-    		
-    		slideEncoder = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
-    		slideEncoder.setDistancePerPulse(.1173);
-    		slideEncoder.setMinRate(10);
-    		
-    		upperLimitSwitch = new DigitalInput(9);
-    		lowerLimitSwitch = new DigitalInput(8);
+		//gyro = new ADXRS450_Gyro();
+		
+		leftEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
+		leftEncoder.setDistancePerPulse(.1173); 
+		leftEncoder.setMinRate(10);
+		
+		rightEncoder = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+		rightEncoder.setDistancePerPulse(.1173);
+		rightEncoder.setMinRate(10);
+		
+		slideEncoder = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
+		slideEncoder.setDistancePerPulse(.1173);
+		slideEncoder.setMinRate(10);
+		
+		upperLimitSwitch = new DigitalInput(9);
+		lowerLimitSwitch = new DigitalInput(8);
 	}
 	
 }

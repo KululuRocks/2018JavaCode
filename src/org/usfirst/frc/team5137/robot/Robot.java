@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
 	 */
 	public void robotInit() {
 		RobotMap.init();
-	   	RobotMap.gyro.calibrate(); // you need this if you're using the gyro
+	   	//RobotMap.gyro.calibrate(); // you need this if you're using the gyro
 	   	 
 	   	driveBase = new DriveBase();
 	   	lift = new Lift();
@@ -78,12 +78,13 @@ public class Robot extends TimedRobot {
 		
 		// adds autonomous options and displays them on the SmartDashboard
 		autoChooser = new SendableChooser<Command>();
-		autoChooser.addDefault("Cross the auto line", new EncoderDriveForward(11 * 12, .65));
-		autoChooser.addObject("Switch from center", new EncoderCenterAutoSwitch());
+		//autoChooser.addDefault("Cross the auto line", new EncoderDriveForward(11 * 12, .65));
+		autoChooser.addDefault("Switch from center", new EncoderCenterAutoSwitch());
 		autoChooser.addObject("Switch from left", new EncoderLeftAutoSwitch());
 		autoChooser.addObject("Switch from right", new EncoderRightAutoSwitch());
 		autoChooser.addObject("Slide encoder test", new EncoderDriveSideways(1 * 12, 1));
-		SmartDashboard.putData("Autonomous mode chooser", autoChooser);		
+		SmartDashboard.putData("Autonomous mode chooser", autoChooser);	
+		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 	}
 	
 	/*

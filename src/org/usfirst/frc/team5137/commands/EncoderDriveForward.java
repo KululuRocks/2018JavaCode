@@ -28,10 +28,9 @@ public class EncoderDriveForward extends Command {
 	}
 	
 	public void execute() {
-		while (Math.abs(leftEncoder.getDistance()) < distance) {
+		if (Math.abs(leftEncoder.getDistance()) < distance) {
 			Robot.driveBase.driveStraight(speed);
-		}
-		isFinished = true;
+		} else isFinished = true;
 	}
 	
 	protected void interrupted() {

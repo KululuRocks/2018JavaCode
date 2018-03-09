@@ -16,7 +16,7 @@ public class DriveBase extends Subsystem {
 	Spark slideDriveMotor = RobotMap.slideDriveMotor;
 	DifferentialDrive hotWheels = RobotMap.hotWheels;
 	
-	ADXRS450_Gyro gyro = RobotMap.gyro;
+	//ADXRS450_Gyro gyro = RobotMap.gyro;
 
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDrive());
@@ -115,20 +115,26 @@ public class DriveBase extends Subsystem {
 		return turnRate;	
 	}
 	
+	/*
 	public void driveStraight(double speed) {
 		double turnRate = turnRate(gyro.getAngle());
 		hotWheels.arcadeDrive(-speed, turnRate); // negative bc gyro is facing opposite direction
-	}
+	} */
 	
-	public void setSlideMotor(double speed) {
+	public void lateralDrive(double speed) {
 		slideDriveMotor.set(speed);
 	}
 	
+	public void driveStraight(double speed) {
+		hotWheels.arcadeDrive(-speed, 0);
+	}
+	
+	/*
 	public void lateralDrive(double speed) {
 		double turnRate = turnRate(gyro.getAngle());
 		slideDriveMotor.set(speed);
 		hotWheels.arcadeDrive(0, turnRate);
-	}
+	} */
 	
 	public void stop() {
 		slideDriveMotor.set(0);

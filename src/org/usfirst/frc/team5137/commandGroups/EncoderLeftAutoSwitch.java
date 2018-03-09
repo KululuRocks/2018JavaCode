@@ -22,14 +22,14 @@ public class EncoderLeftAutoSwitch extends CommandGroup implements RequiresGameD
 	
 	public EncoderLeftAutoSwitch() {
 		displayValues = new DisplayValues();
-		lowerIntake = new LowerIntake(2);
+		lowerIntake = new LowerIntake(1);
 		raiseLift = new RaiseLift(2);
-		driveForward = new EncoderDriveForward(11 * 12, .65); // 11 feet
+		driveForward = new EncoderDriveForward(13 * 12, .65); // 13 feet
 		outtake = new Outtake(2);
 		
 		addParallel(displayValues);
-		addParallel(lowerIntake);
-		addParallel(raiseLift);
+		addSequential(lowerIntake);
+		addSequential(raiseLift);
      	addSequential(driveForward); 
      	addSequential(outtake);
 	}

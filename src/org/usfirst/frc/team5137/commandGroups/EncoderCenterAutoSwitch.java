@@ -6,6 +6,7 @@ import org.usfirst.frc.team5137.commands.Outtake;
 import org.usfirst.frc.team5137.commands.RaiseLift;
 import org.usfirst.frc.team5137.commands.TimerDriveSideways;
 import org.usfirst.frc.team5137.commands.EncoderDriveForward;
+import org.usfirst.frc.team5137.commands.EncoderDriveSideways;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -27,16 +28,16 @@ public class EncoderCenterAutoSwitch extends CommandGroup implements RequiresGam
 	
 	public EncoderCenterAutoSwitch() {
 		displayValues = new DisplayValues();
-		lowerIntake = new LowerIntake(2);
+		lowerIntake = new LowerIntake(1);
 		raiseLift = new RaiseLift(2);
-		driveForward1 = new EncoderDriveForward(7 * 12, .65); // 7 feet
-		driveSideways = new TimerDriveSideways(4, .65); // speed should be from 0 to 1 bc gameData determines direction
-		driveForward2 = new EncoderDriveForward(4 * 12, .65); // 4 feet
-		outtake = new Outtake(2);
+		driveForward1 = new EncoderDriveForward(5 * 12, .5); // 5 feet
+		driveSideways = new TimerDriveSideways(2, .75); // speed should be from 0 to 1 bc gameData determines direction
+		driveForward2 = new EncoderDriveForward(7 * 12, .5); // 7 feet
+		outtake = new Outtake(1);
 		
 		addParallel(displayValues);
-		addParallel(lowerIntake);
-		addParallel(raiseLift);
+		addSequential(lowerIntake);
+		addSequential(raiseLift);
 		addSequential(driveForward1);
 		addSequential(driveSideways);
 		addSequential(driveForward2);
