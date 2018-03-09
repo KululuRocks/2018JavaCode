@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 5 feet, then drives forward the final 4 feet and outtakes the power cube
  * onto the switch.
  */
-public class EncoderCenterAutoSwitch extends CommandGroup implements RequiresGameData {
+public class CenterAutoSwitch extends CommandGroup implements RequiresGameData {
 
 	private DisplayValues displayValues;
 	private LowerIntake lowerIntake;
@@ -25,10 +25,10 @@ public class EncoderCenterAutoSwitch extends CommandGroup implements RequiresGam
 	private TimerDriveForward driveForward2; // bc all the encoders are being bitches
 	private Outtake outtake;
 	
-	public EncoderCenterAutoSwitch() {
+	public CenterAutoSwitch() {
 		displayValues = new DisplayValues();
 		lowerIntake = new LowerIntake(1);
-		raiseLift = new RaiseLift(1);
+		raiseLift = new RaiseLift(1.5);
 		driveForward1 = new EncoderDriveForward(5 * 12, .65); // 5 feet
 		driveSideways = new TimerDriveSideways(2, .75); // speed should be from 0 to 1 bc gameData determines direction
 		driveForward2 = new TimerDriveForward(3, .65); // who knows?

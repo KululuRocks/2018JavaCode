@@ -1,29 +1,30 @@
 package org.usfirst.frc.team5137.commandGroups;
 
 import org.usfirst.frc.team5137.commands.DisplayValues;
-import org.usfirst.frc.team5137.commands.EncoderDriveForward;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.Outtake;
 import org.usfirst.frc.team5137.commands.RaiseLift;
+import org.usfirst.frc.team5137.commands.TimerDriveForward;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /*
- * Identical to EncoderLeftAutoSwitch except on the right.
+ * Autonomous routine in which the robot starts from the left side of the field,
+ * drives forward across the auto line, and outtakes only if the left switch is ours.
  */
-public class EncoderRightAutoSwitch extends CommandGroup implements RequiresGameData {
+public class TimerRightAutoSwitch extends CommandGroup implements RequiresGameData {
 
 	private DisplayValues displayValues;
 	private LowerIntake lowerIntake;
 	private RaiseLift raiseLift;
-	private EncoderDriveForward driveForward;
+	private TimerDriveForward driveForward;
 	private Outtake outtake;
 	
-	public EncoderRightAutoSwitch() {
+	public TimerRightAutoSwitch() {
 		displayValues = new DisplayValues();
 		lowerIntake = new LowerIntake(1);
-		raiseLift = new RaiseLift(2);
-		driveForward = new EncoderDriveForward(13 * 12, .65); // 13 feet
+		raiseLift = new RaiseLift(1.5);
+		driveForward = new TimerDriveForward(4, .65);
 		outtake = new Outtake(1);
 		
 		addParallel(displayValues);
@@ -38,9 +39,6 @@ public class EncoderRightAutoSwitch extends CommandGroup implements RequiresGame
 		if (gameData.length() > 0) {
 		    if (gameData.charAt(0) == 'R') outtake.setWillRun(true);
 		    else outtake.setWillRun(false);
-		} else {
-			outtake.setWillRun(false);
-		}
+		} else outtake.setWillRun(false);
 	}
-	
 }

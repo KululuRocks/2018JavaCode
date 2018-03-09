@@ -8,10 +8,12 @@
 package org.usfirst.frc.team5137.robot;
 import org.usfirst.frc.team5137.commands.EncoderDriveForward;
 import org.usfirst.frc.team5137.commands.EncoderDriveSideways;
-import org.usfirst.frc.team5137.commandGroups.EncoderCenterAutoSwitch;
-import org.usfirst.frc.team5137.commandGroups.EncoderLeftAutoSwitch;
-import org.usfirst.frc.team5137.commandGroups.EncoderRightAutoSwitch;
+import org.usfirst.frc.team5137.commandGroups.CenterAutoSwitch;
+import org.usfirst.frc.team5137.commandGroups.DelayTimerLeftAutoSwitch;
+import org.usfirst.frc.team5137.commandGroups.DelayTimerRightAutoSwitch;
 import org.usfirst.frc.team5137.commandGroups.RequiresGameData;
+import org.usfirst.frc.team5137.commandGroups.TimerLeftAutoSwitch;
+import org.usfirst.frc.team5137.commandGroups.TimerRightAutoSwitch;
 import org.usfirst.frc.team5137.subsystems.DriveBase;
 import org.usfirst.frc.team5137.subsystems.IntakeNoun;
 import org.usfirst.frc.team5137.subsystems.Lift;
@@ -76,12 +78,13 @@ public class Robot extends TimedRobot {
 		// adds autonomous options and displays them on the SmartDashboard
 		autoChooser = new SendableChooser<Command>();
 		autoChooser.addDefault("Cross the auto line", new EncoderDriveForward(11 * 12, .65));
-		autoChooser.addObject("Switch from center", new EncoderCenterAutoSwitch());
-		autoChooser.addObject("Switch from left", new EncoderLeftAutoSwitch());
-		autoChooser.addObject("Switch from right", new EncoderRightAutoSwitch());
+		autoChooser.addObject("Switch from center", new CenterAutoSwitch());
+		autoChooser.addObject("Switch from left", new TimerLeftAutoSwitch());
+		autoChooser.addObject("Switch from left, delay", new DelayTimerLeftAutoSwitch());
+		autoChooser.addObject("Switch from right", new TimerRightAutoSwitch());
+		autoChooser.addObject("Switch from right, delay", new DelayTimerRightAutoSwitch());
 		autoChooser.addObject("Slide encoder test", new EncoderDriveSideways(1 * 12, 1));
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);	
-		SmartDashboard.putData("Autonomous mode chooser", autoChooser);
 	}
 	
 	/*
