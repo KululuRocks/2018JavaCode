@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5137.robot;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
@@ -21,7 +20,6 @@ public class RobotMap {
 	public static Spark rotateIntakeMotor;
 	public static Spark intakeMotor;
 	public static DifferentialDrive hotWheels;
-	//public static ADXRS450_Gyro gyro;
 	public static Encoder leftEncoder;
 	public static Encoder rightEncoder;
 	public static Encoder slideEncoder;
@@ -45,8 +43,6 @@ public class RobotMap {
 		rotateIntakeMotor = new Spark(4); 
 		intakeMotor = new Spark(5); 
 		intakeMotor.setInverted(true);
-	
-		//gyro = new ADXRS450_Gyro();
 		
 		leftEncoder = new Encoder(0, 1, true, Encoder.EncodingType.k4X);
 		leftEncoder.setDistancePerPulse(.1173); 

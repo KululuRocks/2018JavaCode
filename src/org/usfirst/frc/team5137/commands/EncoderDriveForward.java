@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * left motor encoder. Could've used the right motor encoder, 
  * doesn't matter. Not sure how to drive backwards.
  */
-public class EncoderDriveForward extends Command {
+public class EncoderDriveForward extends Command implements RepeatsInTeleop {
 
 	Encoder leftEncoder = RobotMap.leftEncoder;
 	
@@ -46,7 +46,7 @@ public class EncoderDriveForward extends Command {
 		Robot.driveBase.stop();
 	}
 	
-	public void resetEncoder() {
+	public void reset() {
 		leftEncoder.reset();
 		isFinished = false;
 	}

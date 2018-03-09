@@ -4,10 +4,9 @@ import org.usfirst.frc.team5137.commands.DisplayValues;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.Outtake;
 import org.usfirst.frc.team5137.commands.RaiseLift;
+import org.usfirst.frc.team5137.commands.TimerDriveForward;
 import org.usfirst.frc.team5137.commands.TimerDriveSideways;
 import org.usfirst.frc.team5137.commands.EncoderDriveForward;
-import org.usfirst.frc.team5137.commands.EncoderDriveSideways;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /*
@@ -23,16 +22,16 @@ public class EncoderCenterAutoSwitch extends CommandGroup implements RequiresGam
 	private RaiseLift raiseLift;
 	private EncoderDriveForward driveForward1;
 	private TimerDriveSideways driveSideways; // bc EncoderDriveSideways is being a bitch
-	private EncoderDriveForward driveForward2;
+	private TimerDriveForward driveForward2; // bc all the encoders are being bitches
 	private Outtake outtake;
 	
 	public EncoderCenterAutoSwitch() {
 		displayValues = new DisplayValues();
 		lowerIntake = new LowerIntake(1);
-		raiseLift = new RaiseLift(2);
-		driveForward1 = new EncoderDriveForward(5 * 12, .5); // 5 feet
+		raiseLift = new RaiseLift(1);
+		driveForward1 = new EncoderDriveForward(5 * 12, .65); // 5 feet
 		driveSideways = new TimerDriveSideways(2, .75); // speed should be from 0 to 1 bc gameData determines direction
-		driveForward2 = new EncoderDriveForward(7 * 12, .5); // 7 feet
+		driveForward2 = new TimerDriveForward(3, .65); // who knows?
 		outtake = new Outtake(1);
 		
 		addParallel(displayValues);

@@ -3,7 +3,6 @@ package org.usfirst.frc.team5137.subsystems;
 import org.usfirst.frc.team5137.commands.ArcadeDrive;
 import org.usfirst.frc.team5137.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -15,8 +14,6 @@ public class DriveBase extends Subsystem {
 	Spark rightDriveMotor = RobotMap.rightDriveMotor;
 	Spark slideDriveMotor = RobotMap.slideDriveMotor;
 	DifferentialDrive hotWheels = RobotMap.hotWheels;
-	
-	//ADXRS450_Gyro gyro = RobotMap.gyro;
 
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDrive());
@@ -85,42 +82,6 @@ public class DriveBase extends Subsystem {
         slideDriveMotor.set(exponentialSlideDrive);
 	}
 	
-	/* 
-	 * Tank drive is a form of driving...
-	 * That disables the slide drive and assigns the drive motors to
-	 * a joystick each.
-	 */
-	public void tankDrive(Joystick jackBlack) {
-		double adjustedLeftJoystick = adjustJoystickValue(jackBlack.getRawAxis(1), .3);
-		double adjustedRightJoystick = adjustJoystickValue(jackBlack.getRawAxis(5), .3);
-		double adjustedSlideJoystick = adjustJoystickValue(jackBlack.getRawAxis(0), .3);
-		hotWheels.tankDrive(adjustedLeftJoystick, adjustedRightJoystick);
-		slideDriveMotor.set(adjustedSlideJoystick);		
-	}
-	
-	//	This method works by calling upon the gyro to give a scaled turn value to the arcadeDrive
-	public double turnRate(double angle) {
-		double turnRate;
-
-		if (Math.abs(angle) > 72) {
-			turnRate = angle * .0056;
-		} 
-		else if (Math.abs(angle) < .5) {
-			turnRate = 0;
-		} 
-		else {
-			turnRate = Math.signum(angle) * .4;
-		}
-		
-		return turnRate;	
-	}
-	
-	/*
-	public void driveStraight(double speed) {
-		double turnRate = turnRate(gyro.getAngle());
-		hotWheels.arcadeDrive(-speed, turnRate); // negative bc gyro is facing opposite direction
-	} */
-	
 	public void lateralDrive(double speed) {
 		slideDriveMotor.set(speed);
 	}
@@ -129,16 +90,9 @@ public class DriveBase extends Subsystem {
 		hotWheels.arcadeDrive(-speed, 0);
 	}
 	
-	/*
-	public void lateralDrive(double speed) {
-		double turnRate = turnRate(gyro.getAngle());
-		slideDriveMotor.set(speed);
-		hotWheels.arcadeDrive(0, turnRate);
-	} */
-	
 	public void stop() {
 		slideDriveMotor.set(0);
-		hotWheels.arcadeDrive(0,0);
+		hotWheels.arcadeDrive(0, 0);
 	}
 
 }

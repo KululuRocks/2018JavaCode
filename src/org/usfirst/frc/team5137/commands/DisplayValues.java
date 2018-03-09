@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DisplayValues extends Command {
 	
 	protected void execute() {
-		//SmartDashboard.putNumber("Angle", RobotMap.gyro.getAngle()); // displays the gyro angle on the SmartDashboards
 		SmartDashboard.putNumber("Timer", Robot.timer.get()); // displays the time in seconds
 		SmartDashboard.putNumber("Slide encoder", RobotMap.slideEncoder.getDistance());
 		SmartDashboard.putNumber("Left encoder", RobotMap.leftEncoder.getDistance());

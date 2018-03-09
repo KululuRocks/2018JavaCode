@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ButtonPressed extends Command {
 
-	EncoderDriveForward edf;
+	RepeatsInTeleop command;
 	
-	public ButtonPressed(EncoderDriveForward edf) {
-		this.edf = edf;
+	public ButtonPressed(RepeatsInTeleop command) {
+		this.command = command;
 	}
 	
 	public void execute() {
-		this.edf.execute();
+		command.execute();
 	}
 	
 	protected void interrupted() {
@@ -23,6 +23,7 @@ public class ButtonPressed extends Command {
 	}
 	
 	protected void end() {
+		
 	}
 	
 }

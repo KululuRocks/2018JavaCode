@@ -4,7 +4,6 @@ import org.usfirst.frc.team5137.commands.DisplayValues;
 import org.usfirst.frc.team5137.commands.EncoderDriveForward;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.Outtake;
-import org.usfirst.frc.team5137.commands.RaiseIntake;
 import org.usfirst.frc.team5137.commands.RaiseLift;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -25,7 +24,7 @@ public class EncoderRightAutoSwitch extends CommandGroup implements RequiresGame
 		lowerIntake = new LowerIntake(1);
 		raiseLift = new RaiseLift(2);
 		driveForward = new EncoderDriveForward(13 * 12, .65); // 13 feet
-		outtake = new Outtake(2);
+		outtake = new Outtake(1);
 		
 		addParallel(displayValues);
 		addSequential(lowerIntake);

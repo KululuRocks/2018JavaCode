@@ -5,7 +5,6 @@ import org.usfirst.frc.team5137.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
  * Uses encoder on the center wheel to slide left or right by a 

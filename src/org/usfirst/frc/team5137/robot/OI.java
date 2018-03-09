@@ -1,9 +1,6 @@
 package org.usfirst.frc.team5137.robot;
 
 import org.usfirst.frc.team5137.commandGroups.ClimbPrep;
-import org.usfirst.frc.team5137.commands.ButtonPressed;
-import org.usfirst.frc.team5137.commands.ButtonReleased;
-import org.usfirst.frc.team5137.commands.EncoderDriveForward;
 import org.usfirst.frc.team5137.commands.IntakeVerb;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.LowerLift;
@@ -31,11 +28,6 @@ public class OI {
 	public JoystickButton climbPrepButton;
 	public JoystickButton encoderTestButton;
 	
-	/*
-	public JoystickButton resetGyro;
-	public JoystickButton displayValuesButton; 
-	*/
-	
 	public OI() {
 		jackBlack = new Joystick(0);
 		
@@ -60,21 +52,13 @@ public class OI {
 		climbPrepButton = new JoystickButton(jackBlack, 7); // select
 		climbPrepButton.whenPressed(new ClimbPrep());
 		
+		/*
 		EncoderDriveForward edf = new EncoderDriveForward(6, .6);
 		ButtonPressed buttonPressed = new ButtonPressed(edf);
 		ButtonReleased buttonReleased = new ButtonReleased(edf);
 		encoderTestButton = new JoystickButton(jackBlack, 8); // menu
 		encoderTestButton.whileHeld(buttonPressed);
-		encoderTestButton.whenReleased(buttonReleased);
-
-		/*
-		resetGyro = new JoystickButton(jackBlack, 7); // select
-		resetGyro.whileHeld(new ResetGyro()); 
-		*/
-		
-		/*
-		displayValuesButtons = new JoystickButton(jackBlack, 9); // L_Stick in
-		displayValuesButtons.toggleWhenPressed(new DisplayValues());	
-		*/
+		encoderTestButton.whenReleased(buttonReleased); */
 	}
+	
 }
