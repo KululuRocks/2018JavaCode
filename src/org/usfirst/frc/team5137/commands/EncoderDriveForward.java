@@ -18,16 +18,22 @@ public class EncoderDriveForward extends Command implements RepeatsInTeleop {
 	double distance;
 	double speed;
 	boolean isFinished;
+	boolean isReset;
 	
 	public EncoderDriveForward(double distance, double speed) {
 		requires(Robot.driveBase);
 		this.distance = distance;
 		this.speed = speed;
 		isFinished = false;
+		isReset = false;
 		leftEncoder.reset();
 	}
 	
 	public void execute() {
+		if (!isReset) {
+			reset();
+			isReset = true;
+		}
 		if (Math.abs(leftEncoder.getDistance()) < distance) {
 			Robot.driveBase.driveStraight(speed);
 		} else isFinished = true;

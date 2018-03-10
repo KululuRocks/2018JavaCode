@@ -12,7 +12,7 @@ public class Pivot extends Command {
 	boolean timerRunning;
 	double howLong;
 	double speed;
-	boolean isPivotLeft;
+	boolean isSwitchLeft;
 	boolean isFinished;
 	
 	public Pivot(double howLong, double speed) {
@@ -31,7 +31,7 @@ public class Pivot extends Command {
 			timerRunning = true;
 		}
 		if (timer.get() < howLong) {
-			if (isPivotLeft) Robot.driveBase.pivot(-speed);
+			if (isSwitchLeft) Robot.driveBase.pivot(-speed);
 			else Robot.driveBase.pivot(speed);
 		}
 		else {
@@ -51,7 +51,7 @@ public class Pivot extends Command {
 		return isFinished;
 	}
 	
-	public void setPivotDirection(boolean isPivotLeft) {
-		this.isPivotLeft = isPivotLeft;
+	public void setSwitchDirection(boolean isSwitchLeft) {
+		this.isSwitchLeft = isSwitchLeft;
 	}
 }

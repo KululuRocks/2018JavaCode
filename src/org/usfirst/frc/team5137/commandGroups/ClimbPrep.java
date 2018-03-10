@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5137.commandGroups;
 
 import org.usfirst.frc.team5137.commands.LowerIntake;
+import org.usfirst.frc.team5137.commands.LowerLift;
 import org.usfirst.frc.team5137.commands.RaiseLift;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -13,8 +14,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ClimbPrep extends CommandGroup {
 
 	public ClimbPrep() {
-		addParallel(new RaiseLift(6)); // can be excessively wrong
-		addParallel(new LowerIntake(3)); // might be too long
+		addSequential(new RaiseLift(2));
+		addSequential(new LowerIntake(3)); // might be too long
+		addSequential(new LowerLift(2));
 	}
 	
 }

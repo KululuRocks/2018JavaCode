@@ -28,6 +28,8 @@ public class OI {
 	public JoystickButton climbPrepButton;
 	public JoystickButton encoderTestButton;
 	
+	//public JoystickButton pivotTestButton;
+	
 	public OI() {
 		jackBlack = new Joystick(0);
 		
@@ -49,8 +51,14 @@ public class OI {
 		outtakeButton = new JoystickButton(jackBlack, 2); // B
 		outtakeButton.whileHeld(new Outtake());
 		
-		climbPrepButton = new JoystickButton(jackBlack, 7); // select
-		climbPrepButton.whenPressed(new ClimbPrep());
+		climbPrepButton = new JoystickButton(jackBlack, 8); // menu
+		climbPrepButton.whenPressed(new ClimbPrep()); 
+		
+		/*
+		pivotTestButton = new JoystickButton(jackBlack, 7);
+		pivotTestButton.whenPressed(new Pivot(1.3, .65)); // slightly more than 90 deg on concrete w/ V = 12.3 */
+		
+		
 		
 		/*
 		EncoderDriveForward edf = new EncoderDriveForward(6, .6);

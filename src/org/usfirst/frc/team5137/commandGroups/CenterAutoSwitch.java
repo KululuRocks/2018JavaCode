@@ -31,11 +31,11 @@ public class CenterAutoSwitch extends CommandGroup implements RequiresGameData {
 		displayValues = new DisplayValues();
 		lowerIntake = new LowerIntake(1);
 		raiseLift = new RaiseLift(1.5);
-		driveForward1 = new EncoderDriveForward(5 * 12, .65); // 5 feet
-		pivot1 = new Pivot(1, .6);
-		driveForward2 = new EncoderDriveForward(3 * 12, .5);
-		pivot2 = new Pivot(1, -.6);
-		driveForward3 = new TimerDriveForward(4, .65);
+		driveForward1 = new EncoderDriveForward(2 * 12, .65); // 3 feet
+		pivot1 = new Pivot(1.3, .65); // maybe a little more than 90 deg?
+		driveForward2 = new EncoderDriveForward(3 * 12, .65); // 3 feet (lateral)
+		pivot2 = new Pivot(1.3, -.65); // pivot back
+		driveForward3 = new TimerDriveForward(4, .65); // rest of the forward distance
 		outtake = new Outtake(1);
 		
 		addParallel(displayValues);
@@ -53,15 +53,15 @@ public class CenterAutoSwitch extends CommandGroup implements RequiresGameData {
 	public void setGameData(String gameData) {
 		if (gameData.length() > 0) {
 		    if (gameData.charAt(0) == 'L') {
-		    	pivot1.setPivotDirection(true);
-		    	pivot2.setPivotDirection(true);
+		    	pivot1.setSwitchDirection(true);
+		    	pivot2.setSwitchDirection(true);
 		    } else {
-		    	pivot1.setPivotDirection(false);
-		    	pivot2.setPivotDirection(false);
+		    	pivot1.setSwitchDirection(false);
+		    	pivot2.setSwitchDirection(false);
 		    }
 		} else {
-			pivot1.setPivotDirection(false);
-	    	pivot2.setPivotDirection(false);
+			pivot1.setSwitchDirection(false);
+	    	pivot2.setSwitchDirection(false);
 		}
 	}
 	
