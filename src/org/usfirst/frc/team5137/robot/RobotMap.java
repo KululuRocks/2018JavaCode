@@ -15,14 +15,12 @@ public class RobotMap {
 
 	public static Spark leftDriveMotor;
 	public static Spark rightDriveMotor;
-	public static Spark slideDriveMotor;
 	public static Spark liftMotor;
 	public static Spark rotateIntakeMotor;
 	public static Spark intakeMotor;
 	public static DifferentialDrive hotWheels;
 	public static Encoder leftEncoder;
 	public static Encoder rightEncoder;
-	public static Encoder slideEncoder;
 	public static DigitalInput upperLimitSwitch;
 	public static DigitalInput lowerLimitSwitch;
 	
@@ -34,8 +32,6 @@ public class RobotMap {
 		rightDriveMotor.setInverted(true);
 		
 		hotWheels = new DifferentialDrive(leftDriveMotor, rightDriveMotor);
-		
-		slideDriveMotor = new Spark(1); // 2018 bot is 1, 2017 bot is 2
 		
 		liftMotor = new Spark(3);
 		liftMotor.setInverted(true);
@@ -51,10 +47,6 @@ public class RobotMap {
 		rightEncoder = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
 		rightEncoder.setDistancePerPulse(.1173);
 		rightEncoder.setMinRate(10);
-		
-		slideEncoder = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
-		slideEncoder.setDistancePerPulse(.1173);
-		slideEncoder.setMinRate(10);
 		
 		upperLimitSwitch = new DigitalInput(9);
 		lowerLimitSwitch = new DigitalInput(8);

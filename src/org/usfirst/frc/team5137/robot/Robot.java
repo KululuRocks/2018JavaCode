@@ -6,18 +6,19 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team5137.robot;
-import org.usfirst.frc.team5137.commands.EncoderDriveForward;
-import org.usfirst.frc.team5137.commands.EncoderDriveSideways;
 import org.usfirst.frc.team5137.commandGroups.CenterAutoSwitch;
 import org.usfirst.frc.team5137.commandGroups.DelayTimerLeftAutoSwitch;
 import org.usfirst.frc.team5137.commandGroups.DelayTimerRightAutoSwitch;
 import org.usfirst.frc.team5137.commandGroups.RequiresGameData;
 import org.usfirst.frc.team5137.commandGroups.TimerLeftAutoSwitch;
 import org.usfirst.frc.team5137.commandGroups.TimerRightAutoSwitch;
+import org.usfirst.frc.team5137.commands.EncoderDriveForward;
 import org.usfirst.frc.team5137.subsystems.DriveBase;
 import org.usfirst.frc.team5137.subsystems.IntakeNoun;
 import org.usfirst.frc.team5137.subsystems.Lift;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -47,7 +48,7 @@ public class Robot extends TimedRobot {
 
 	public static OI oi;	
 	
-	//public static UsbCamera camera;
+	public static UsbCamera camera;
 	public static Timer timer; 
 	
 	public static String gameData;
@@ -69,10 +70,10 @@ public class Robot extends TimedRobot {
 	   	
 		oi = new OI(); // gotta go after all the subsystems!
 		
-		/*
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
-		camera.setFPS(30); */
+		camera.setFPS(30); 
+		
 		timer = new Timer();
 		
 		// adds autonomous options and displays them on the SmartDashboard
@@ -83,7 +84,6 @@ public class Robot extends TimedRobot {
 		autoChooser.addObject("Switch from left, delay", new DelayTimerLeftAutoSwitch());
 		autoChooser.addObject("Switch from right", new TimerRightAutoSwitch());
 		autoChooser.addObject("Switch from right, delay", new DelayTimerRightAutoSwitch());
-		autoChooser.addObject("Slide encoder test", new EncoderDriveSideways(1 * 12, 1));
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);	
 	}
 	

@@ -12,7 +12,6 @@ public class DriveBase extends Subsystem {
 	// Lines 14-19 are used to call all required bits into the subsystem and give them names to respond to
 	Spark leftDriveMotor = RobotMap.leftDriveMotor;
 	Spark rightDriveMotor = RobotMap.rightDriveMotor;
-	Spark slideDriveMotor = RobotMap.slideDriveMotor;
 	DifferentialDrive hotWheels = RobotMap.hotWheels;
 
 	protected void initDefaultCommand() {
@@ -60,38 +59,33 @@ public class DriveBase extends Subsystem {
         */
         
         // dead zone included
-        double rawArcade = adjustJoystickValue(jackBlack.getRawAxis(1), .2);
-        double rawSlide = adjustJoystickValue(jackBlack.getRawAxis(0), .2);
+        double rawDrive = adjustJoystickValue(jackBlack.getRawAxis(1), .2);
         double rawTurn = adjustJoystickValue(jackBlack.getRawAxis(4), .2); 
         
-        double sensitivityArcade = .95;
-        double sensitivitySlide = .95;
+        double sensitivityDrive = .95;
         double sensitivityTurn = .95;
         
-        double exponentialArcadeDrive;
-        double exponentialSlideDrive;
+        double exponentialDrive;
         double exponentialTurn;
         
         double sensitivityExponent = 3;
         
-        exponentialArcadeDrive = (sensitivityArcade*(Math.pow(rawArcade, sensitivityExponent))) + ((1-sensitivityArcade)*rawArcade);
-        exponentialSlideDrive =  (sensitivitySlide*(Math.pow(rawSlide, sensitivityExponent))) + ((1-sensitivitySlide)*rawSlide);
+        exponentialDrive = (sensitivityDrive*(Math.pow(rawDrive, sensitivityExponent))) + ((1-sensitivityDrive)*rawDrive);
         exponentialTurn = -1*(sensitivityTurn*(Math.pow(rawTurn, sensitivityExponent))) + ((1-sensitivityTurn)*rawTurn);
         
-        hotWheels.arcadeDrive(exponentialArcadeDrive, exponentialTurn);
-        slideDriveMotor.set(exponentialSlideDrive);
-	}
-	
-	public void lateralDrive(double speed) {
-		slideDriveMotor.set(speed);
+        hotWheels.arcadeDrive(exponentialDrive, exponentialTurn);
 	}
 	
 	public void driveStraight(double speed) {
 		hotWheels.arcadeDrive(-speed, 0);
 	}
 	
+	// CW is positive, CCW is negative
+	public void pivot(double speed) {
+		hotWheels.arcadeDrive(0, -speed); 
+	}
+	
 	public void stop() {
-		slideDriveMotor.set(0);
 		hotWheels.arcadeDrive(0, 0);
 	}
 

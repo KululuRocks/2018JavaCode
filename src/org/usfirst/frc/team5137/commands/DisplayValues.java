@@ -13,7 +13,6 @@ public class DisplayValues extends Command {
 	
 	protected void execute() {
 		SmartDashboard.putNumber("Timer", Robot.timer.get()); // displays the time in seconds
-		SmartDashboard.putNumber("Slide encoder", RobotMap.slideEncoder.getDistance());
 		SmartDashboard.putNumber("Left encoder", RobotMap.leftEncoder.getDistance());
 	}
 	
