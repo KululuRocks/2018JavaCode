@@ -5,20 +5,28 @@ import org.usfirst.frc.team5137.robot.Robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
+/*
+ * Lowers the intake subsystem. Works in auto and teleop.
+ * If in auto, tell it how long (we never hooked up the 
+ * encoders inside the seat motors).
+ */
 public class LowerIntake extends Command {
 
 	Timer timer;
+	
 	double howLong;
 	boolean autonomous;
 	boolean timerRunning;
 	boolean isFinished;
 	
+	// Constructor for teleop
 	public LowerIntake() {
 		requires(Robot.intakeNoun);
 		autonomous = false;
 		isFinished = false;
 	} 
 	
+	// Constructor for autonomous
 	public LowerIntake(double howLong) {
 		requires(Robot.intakeNoun);
 		timer = new Timer();
