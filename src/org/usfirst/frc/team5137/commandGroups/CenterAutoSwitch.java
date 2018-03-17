@@ -32,9 +32,9 @@ public class CenterAutoSwitch extends CommandGroup implements RequiresGameData {
 		lowerIntake = new LowerIntake(1);
 		raiseLift = new RaiseLift(1.5);
 		driveForward1 = new EncoderDriveForward(2 * 12, .65); // 3 feet
-		pivot1 = new Pivot(1.3, .65); // maybe a little more than 90 deg?
+		pivot1 = new Pivot(1.2, .65); // maybe a little more than 90 deg?
 		driveForward2 = new EncoderDriveForward(3 * 12, .65); // 3 feet (lateral)
-		pivot2 = new Pivot(1.3, -.65); // pivot back
+		pivot2 = new Pivot(1.2, -.65); // pivot back
 		driveForward3 = new TimerDriveForward(4, .65); // rest of the forward distance
 		outtake = new Outtake(1);
 		
