@@ -1,20 +1,13 @@
 package org.usfirst.frc.team5137.commands;
 
 import org.usfirst.frc.team5137.robot.Robot;
-import org.usfirst.frc.team5137.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-/*
- * Raises the lift subsystem. Works in auto and teleop.
- * If auto, tell it how long (we never hooked up seat
- * motor encoders). Stops if it hits upper limit switch.
- */
 public class RaiseLift extends Command {
 
 	Timer timer;
-	
 	double howLong;
 	boolean autonomous;
 	boolean timerRunning;
@@ -42,14 +35,13 @@ public class RaiseLift extends Command {
 				timer.start();
 				timerRunning = true;
 			}
-			if (timer.get() < howLong && RobotMap.upperLimitSwitch.get()) { // true = not pressed, false = pressed
+			if (timer.get() < howLong) {
 				Robot.lift.raiseLift();
 			} else {
 				isFinished = true;
 			}
 		} else {
-			if (RobotMap.upperLimitSwitch.get()) Robot.lift.raiseLift();
-			else Robot.lift.stop();
+			Robot.lift.raiseLift();
 		}
 	}
 	

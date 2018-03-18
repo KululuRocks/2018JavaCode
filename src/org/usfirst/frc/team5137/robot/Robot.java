@@ -6,13 +6,15 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team5137.robot;
-import org.usfirst.frc.team5137.commandGroups.CenterAutoSwitch;
-import org.usfirst.frc.team5137.commandGroups.DelayTimerLeftAutoSwitch;
-import org.usfirst.frc.team5137.commandGroups.DelayTimerRightAutoSwitch;
+import org.usfirst.frc.team5137.commands.RaiseIntake;
+
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team5137.grip.GripPipelineVOne;
+import edu.wpi.first.wpilibj.vision.VisionThread;
+import org.usfirst.frc.team5137.commandGroups.EncoderCenterAutoSwitch;
 import org.usfirst.frc.team5137.commandGroups.RequiresGameData;
-import org.usfirst.frc.team5137.commandGroups.TimerLeftAutoSwitch;
-import org.usfirst.frc.team5137.commandGroups.TimerRightAutoSwitch;
-import org.usfirst.frc.team5137.commands.EncoderDriveForward;
+import org.usfirst.frc.team5137.commandGroups.TestTimerLeftAuto;
 import org.usfirst.frc.team5137.subsystems.DriveBase;
 import org.usfirst.frc.team5137.subsystems.IntakeNoun;
 import org.usfirst.frc.team5137.subsystems.Lift;
@@ -45,52 +47,72 @@ public class Robot extends TimedRobot {
 	public static DriveBase driveBase; 
 	public static Lift lift;
 	public static IntakeNoun intakeNoun;
-
-	public static OI oi;	
 	
 	public static UsbCamera camera;
+	public static OI oi;	
+	
 	public static Timer timer; 
+	/* This creates a timer that the whole Robot can see and can be used to run commands off of
+	 i.e. the AutoDrive command does.
+	*/
+	
+	public static double centerX = 0.0;
+	
+	public static Object imgLock;
+	public static VisionThread visionThread;
 	
 	public static String gameData;
+	public static boolean done = false;
 	
 	Command autonomousCommand; 
 	SendableChooser<Command> autoChooser;
 	
-	/*	
-	 * robotInit() is the first thing the robot does on boot up
-	 * it is used to declare what subsystems and the OI are and to calibrate any gyros 
-	 * and start timers
-	 */
+	/*	robotInit() is the first thing the robot does on boot up
+	 it is used to declare what subsystems and the OI are and to calibrate any gyros 
+	 and start timers
+	*/
 	public void robotInit() {
 		RobotMap.init();
+	   	RobotMap.gyro.calibrate(); // you need this if you're using the gyro
 	   	 
 	   	driveBase = new DriveBase();
 	   	lift = new Lift();
 	   	intakeNoun = new IntakeNoun();
 	   	
 		oi = new OI(); // gotta go after all the subsystems!
-		
+		timer = new Timer();
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
-		camera.setFPS(30); 
+		camera.setFPS(30);
 		
-		timer = new Timer();
+		visionThread =  new VisionThread(camera, new GripPipelineVOne(), pipeline -> {
+			if (!pipeline.filterContoursOutput().isEmpty()) {
+				Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+			                synchronized (imgLock) {
+			                    centerX = r.x + (r.width / 2);
+			                }
+			            }
+			        });
+			        visionThread.start();
+		
 		
 		// adds autonomous options and displays them on the SmartDashboard
 		autoChooser = new SendableChooser<Command>();
-		autoChooser.addDefault("Cross the auto line", new EncoderDriveForward(11 * 12, .65));
-		autoChooser.addObject("Switch from center", new CenterAutoSwitch());
-		autoChooser.addObject("Switch from left", new TimerLeftAutoSwitch());
-		autoChooser.addObject("Switch from left, delay", new DelayTimerLeftAutoSwitch());
-		autoChooser.addObject("Switch from right", new TimerRightAutoSwitch());
-		autoChooser.addObject("Switch from right, delay", new DelayTimerRightAutoSwitch());
-		SmartDashboard.putData("Autonomous mode chooser", autoChooser);	
+		autoChooser.addDefault("Default (TestTimerLeftAuto)", new TestTimerLeftAuto());
+		autoChooser.addObject("Encoder center auto switch", new EncoderCenterAutoSwitch());
+		autoChooser.addObject("Test timed subsystem", new RaiseIntake(2));
+		SmartDashboard.putData("Autonomous mode chooser", autoChooser);		
 	}
 	
-	/*
-	 * The below code instructs the robot what to do when Autonomous mode is first pressed
-	 */
+	public static void resetTimer() {
+		timer.reset();
+	}
+	/*The below code instructs the robot what to do when Autonomous mode is first pressed
+	 in this case, it tells it to run the autonomous default command and to reset and start the timer
+	*/
 	public void autonomousInit() {
+		timer.reset();
+		timer.start();
 		int retries = 100;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		while (gameData.length() < 2 && retries > 0) {
@@ -102,7 +124,6 @@ public class Robot extends TimedRobot {
 		    }
 		    gameData = DriverStation.getInstance().getGameSpecificMessage();
 		}
-		SmartDashboard.putString("gameData", gameData);
 		autonomousCommand = (Command) autoChooser.getSelected();
 		if (autonomousCommand instanceof RequiresGameData)
 		{
@@ -115,17 +136,21 @@ public class Robot extends TimedRobot {
 
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+
+		if (done) {
+			autonomousCommand = new TestTimerLeftAuto();
+			autonomousCommand.start();
+			done = false;
+		}
 	}
 	
 	// You have to tell the robot to stop doing autonomous stuff
 	public void teleopInit() {
 		if (autonomousCommand != null) autonomousCommand.cancel();
-		timer.reset();
-		timer.start();
 	}
 	
 	/* teleopPeriodic runs any default commands defined in any subsystems, 
-	 * typically, only the driveBase has one set
+	 * typically, only the driveBase/Train has one set
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();		

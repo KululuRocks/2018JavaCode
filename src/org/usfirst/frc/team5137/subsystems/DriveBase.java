@@ -1,19 +1,27 @@
 package org.usfirst.frc.team5137.subsystems;
 
 import org.usfirst.frc.team5137.commands.ArcadeDrive;
+import org.usfirst.frc.team5137.robot.Robot;
 import org.usfirst.frc.team5137.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveBase extends Subsystem {
-	// Lines 14-19 are used to call all required bits into the subsystem and give them names to respond to
+	// Lines 14-18 are used to call all required bits into the subsystem and give them names to respond to
 	Spark leftDriveMotor = RobotMap.leftDriveMotor;
 	Spark rightDriveMotor = RobotMap.rightDriveMotor;
+	Spark slideDriveMotor = RobotMap.slideDriveMotor;
+	ADXRS450_Gyro gyro = RobotMap.gyro;
 	DifferentialDrive hotWheels = RobotMap.hotWheels;
-
+	
+	private static final int IMG_WIDTH = 320;
+	//private static final int IMG_HEIGHT = 240;
+	public double centerX = 0.0;
+	
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDrive());
 	}
@@ -30,13 +38,12 @@ public class DriveBase extends Subsystem {
 		return adjustedJoystick;
 	}
 	
-	/* 
-	 * Arcade Drive is a form of driving...
+	/* Arcade Drive is a form of driving...
 	 * That allows one joystick on a controller to control both forwards/backwards and left and right (via SlideDrive)
 	 * and delegates rotation to a different joystick
 	 */
 	public void arcadeDrive(Joystick jackBlack) {
-	   /*
+		/*
         * x' = a(x^b) + (1-a)x
         *
         * x' is the scaled output value
@@ -59,34 +66,90 @@ public class DriveBase extends Subsystem {
         */
         
         // dead zone included
-        double rawDrive = adjustJoystickValue(jackBlack.getRawAxis(1), .2);
+        double rawArcade = adjustJoystickValue(jackBlack.getRawAxis(1), .2);
+        double rawSlide = adjustJoystickValue(jackBlack.getRawAxis(0), .2);
         double rawTurn = adjustJoystickValue(jackBlack.getRawAxis(4), .2); 
         
-        double sensitivityDrive = .95;
+        double sensitivityArcade = .95;
+        double sensitivitySlide = .95;
         double sensitivityTurn = .95;
         
-        double exponentialDrive;
+        double exponentialArcadeDrive;
+        double exponentialSlideDrive;
         double exponentialTurn;
         
         double sensitivityExponent = 3;
         
-        exponentialDrive = (sensitivityDrive*(Math.pow(rawDrive, sensitivityExponent))) + ((1-sensitivityDrive)*rawDrive);
+        exponentialArcadeDrive = (sensitivityArcade*(Math.pow(rawArcade, sensitivityExponent))) + ((1-sensitivityArcade)*rawArcade);
+        exponentialSlideDrive =  (sensitivitySlide*(Math.pow(rawSlide, sensitivityExponent))) + ((1-sensitivitySlide)*rawSlide);
         exponentialTurn = -1*(sensitivityTurn*(Math.pow(rawTurn, sensitivityExponent))) + ((1-sensitivityTurn)*rawTurn);
         
-        hotWheels.arcadeDrive(exponentialDrive, exponentialTurn);
+        hotWheels.arcadeDrive(exponentialArcadeDrive, exponentialTurn);
+        slideDriveMotor.set(exponentialSlideDrive);
+	}
+	
+	/* Tank drive is a form of driving...
+	 * That disables the slide drive and assigns the drive motors to
+	 * a joystick each.
+	 */
+	public void tankDrive(Joystick jackBlack) {
+		double adjustedLeftJoystick = adjustJoystickValue(jackBlack.getRawAxis(1), .3);
+		double adjustedRightJoystick = adjustJoystickValue(jackBlack.getRawAxis(5), .3);
+		double adjustedSlideJoystick = adjustJoystickValue(jackBlack.getRawAxis(0), .3);
+		hotWheels.tankDrive(adjustedLeftJoystick, adjustedRightJoystick);
+		slideDriveMotor.set(adjustedSlideJoystick);		
+	}
+	
+	//	This method works by calling upon the gyro to give a scaled turn value to the arcadeDrive
+	public double turnRate(double angle) {
+		double turnRate;
+
+		if (Math.abs(angle) > 72) {
+			turnRate = angle * .0056;
+		} 
+		else if (Math.abs(angle) < .5) {
+			turnRate = 0;
+		} 
+		else {
+			turnRate = Math.signum(angle) * .4;
+		}
+		
+		return turnRate;	
 	}
 	
 	public void driveStraight(double speed) {
-		hotWheels.arcadeDrive(-speed, 0);
+		double turnRate = turnRate(gyro.getAngle());
+		hotWheels.arcadeDrive(-speed, turnRate); // negative bc gyro is facing opposite direction
 	}
 	
-	// CW is positive, CCW is negative
-	public void pivot(double speed) {
-		hotWheels.arcadeDrive(0, -speed); 
+	public void setSlideMotor(double speed) {
+		slideDriveMotor.set(speed);
 	}
+	
+	public void lateralDrive(double speed) {
+		double turnRate = turnRate(gyro.getAngle());
+		slideDriveMotor.set(speed);
+		hotWheels.arcadeDrive(0, turnRate);
+	}
+	
+public void visionDrive() {
+        
+        double centerX;
+        synchronized (Robot.imgLock) {
+            centerX = Robot.centerX;
+        }
+        if (centerX > 1) {
+        double turn = centerX - (IMG_WIDTH / 2);
+        RobotMap.hotWheels.arcadeDrive( 0 , -turn * 0.005);
+        System.out.println("centerX = " + centerX);
+        System.out.println("turn = " + turn);
+        }
+    }
+	
 	
 	public void stop() {
-		hotWheels.arcadeDrive(0, 0);
+		slideDriveMotor.set(0);
+		hotWheels.arcadeDrive(0,0);
 	}
 
 }
