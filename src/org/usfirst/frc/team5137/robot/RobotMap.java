@@ -1,6 +1,8 @@
 package org.usfirst.frc.team5137.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -23,6 +25,8 @@ public class RobotMap {
 	public static Encoder rightEncoder;
 	public static DigitalInput upperLimitSwitch;
 	public static DigitalInput lowerLimitSwitch;
+	public static Compressor compressor;
+	public static DoubleSolenoid pneumaticThing;
 	
 	public static void init() {
 		leftDriveMotor = new Spark(0);
@@ -50,6 +54,11 @@ public class RobotMap {
 		
 		upperLimitSwitch = new DigitalInput(9);
 		lowerLimitSwitch = new DigitalInput(8);
+		
+		compressor = new Compressor(0);
+		compressor.setClosedLoopControl(true);
+		
+		pneumaticThing = new DoubleSolenoid(1, 2);
 	}
 	
 }

@@ -1,9 +1,11 @@
 package org.usfirst.frc.team5137.robot;
 
 import org.usfirst.frc.team5137.commandGroups.ClimbPrep;
+import org.usfirst.frc.team5137.commands.CloseIntake;
 import org.usfirst.frc.team5137.commands.IntakeVerb;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.LowerLift;
+import org.usfirst.frc.team5137.commands.OpenIntake;
 import org.usfirst.frc.team5137.commands.Outtake;
 import org.usfirst.frc.team5137.commands.RaiseIntake;
 import org.usfirst.frc.team5137.commands.RaiseLift;
@@ -25,9 +27,11 @@ public class OI {
 	public JoystickButton lowerIntakeButton;
 	public JoystickButton intakeButton;
 	public JoystickButton outtakeButton;
+	public JoystickButton openIntakeButton;
+	public JoystickButton closeIntakeButton;
 	public JoystickButton climbPrepButton;
-	public JoystickButton encoderTestButton;
 	
+	//public JoystickButton encoderTestButton;
 	//public JoystickButton pivotTestButton;
 	
 	public OI() {
@@ -51,15 +55,19 @@ public class OI {
 		outtakeButton = new JoystickButton(jackBlack, 2); // B
 		outtakeButton.whileHeld(new Outtake());
 		
-		climbPrepButton = new JoystickButton(jackBlack, 8); // menu
-		climbPrepButton.whenPressed(new ClimbPrep()); 
+		openIntakeButton = new JoystickButton(jackBlack, 7); // left "menu" button
+		openIntakeButton.whileHeld(new OpenIntake());
 		
+		closeIntakeButton = new JoystickButton(jackBlack, 8); // actual menu button
+		closeIntakeButton.whileHeld(new CloseIntake());
+		
+		climbPrepButton = new JoystickButton(jackBlack, 9); // left joystick clicky
+		climbPrepButton.whenPressed(new ClimbPrep()); 	
+			
 		/*
 		pivotTestButton = new JoystickButton(jackBlack, 7);
 		pivotTestButton.whenPressed(new Pivot(1.3, .65)); // slightly more than 90 deg on concrete w/ V = 12.3 */
-		
-		
-		
+				
 		/*
 		EncoderDriveForward edf = new EncoderDriveForward(6, .6);
 		ButtonPressed buttonPressed = new ButtonPressed(edf);
