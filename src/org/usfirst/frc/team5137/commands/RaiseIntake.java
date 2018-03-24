@@ -15,13 +15,13 @@ public class RaiseIntake extends Command {
 	Timer timer;
 	
 	double howLong;
-	boolean autonomous;
+	boolean isTimed;
 	boolean timerRunning;
 	boolean isFinished;
 	
 	public RaiseIntake() {
 		requires(Robot.intakeNoun);
-		autonomous = false;
+		isTimed = false;
 		isFinished = false;
 	} 
 	
@@ -29,13 +29,13 @@ public class RaiseIntake extends Command {
 		requires(Robot.intakeNoun);
 		timer = new Timer();
 		this.howLong = howLong;
-		autonomous = true;
+		isTimed = true;
 		timerRunning = false;
 		isFinished = false;
 	}
 	
 	protected void execute() {
-		if (autonomous) {
+		if (isTimed) {
 			if (!timerRunning) {
 				timer.reset();
 				timer.start();

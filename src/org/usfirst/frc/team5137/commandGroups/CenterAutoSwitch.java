@@ -1,12 +1,13 @@
 package org.usfirst.frc.team5137.commandGroups;
 
 import org.usfirst.frc.team5137.commands.DisplayValues;
+import org.usfirst.frc.team5137.commands.DriveForward;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.Outtake;
-import org.usfirst.frc.team5137.commands.Pivot;
 import org.usfirst.frc.team5137.commands.RaiseLift;
-import org.usfirst.frc.team5137.commands.TimerDriveForward;
 import org.usfirst.frc.team5137.commands.EncoderDriveForward;
+import org.usfirst.frc.team5137.commands.EncoderPivot;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /*
@@ -21,47 +22,47 @@ public class CenterAutoSwitch extends CommandGroup implements RequiresGameData {
 	private LowerIntake lowerIntake;
 	private RaiseLift raiseLift;
 	private EncoderDriveForward driveForward1;
-	private Pivot pivot1;
+	private EncoderPivot pivot1;
 	private EncoderDriveForward driveForward2;
-	private Pivot pivot2;
-	private TimerDriveForward driveForward3; // bc all the encoders are being bitches
+	private EncoderPivot pivot2;
+	private DriveForward driveForward3;
 	private Outtake outtake;
 
 	public CenterAutoSwitch() {
 		displayValues = new DisplayValues();
-		lowerIntake = new LowerIntake(1);
-		raiseLift = new RaiseLift(1.5);
-		driveForward1 = new EncoderDriveForward(2 * 12, .65); // 3 feet
-		pivot1 = new Pivot(1.2, .65); // maybe a little more than 90 deg?
-		driveForward2 = new EncoderDriveForward(3 * 12, .65); // 3 feet (lateral)
-		pivot2 = new Pivot(1.2, -.65); // pivot back
-		driveForward3 = new TimerDriveForward(4, .65); // rest of the forward distance
-		outtake = new Outtake(1);
+		lowerIntake = new LowerIntake();
+		raiseLift = new RaiseLift();
+		driveForward1 = new EncoderDriveForward(2 * 12, .65); // 2 feet
+		pivot1 = new EncoderPivot(2 * 12, .65); // about 90 degrees
+		driveForward2 = new EncoderDriveForward(3.5 * 12, .65); // 3.5 feet (lateral)
+		pivot2 = new EncoderPivot(2 * 12, .65); // pivot back (direction set below)
+		driveForward3 = new DriveForward(.65); // rest of the forward distance
+		outtake = new Outtake();
 		
 		addParallel(displayValues);
-		addSequential(lowerIntake);
-		addSequential(raiseLift);
+		addSequential(lowerIntake, 1);
+		addSequential(raiseLift, 1.2);
 		addSequential(driveForward1);
 		addSequential(pivot1);
 		addSequential(driveForward2);
 		addSequential(pivot2);
-		addSequential(driveForward3);
-		addSequential(outtake);
+		addSequential(driveForward3, 2.5);
+		addSequential(outtake, 1);
 	}
 	
-	// tells driveSideways which way to go
+	// sets the direction of the pivots
 	public void setGameData(String gameData) {
 		if (gameData.length() > 0) {
 		    if (gameData.charAt(0) == 'L') {
-		    	pivot1.setSwitchDirection(true);
-		    	pivot2.setSwitchDirection(true);
+		    	pivot1.setDirection(true);
+		    	pivot2.setDirection(false);
 		    } else {
-		    	pivot1.setSwitchDirection(false);
-		    	pivot2.setSwitchDirection(false);
+		    	pivot1.setDirection(false);
+		    	pivot2.setDirection(true);
 		    }
 		} else {
-			pivot1.setSwitchDirection(false);
-	    	pivot2.setSwitchDirection(false);
+			pivot1.setDirection(true);
+	    	pivot2.setDirection(false);
 		}
 	}
 	

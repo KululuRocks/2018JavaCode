@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5137.robot;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -27,6 +28,7 @@ public class RobotMap {
 	public static DigitalInput lowerLimitSwitch;
 	public static Compressor compressor;
 	public static DoubleSolenoid pneumaticThing;
+	public static ADXRS450_Gyro gyro;
 	
 	public static void init() {
 		leftDriveMotor = new Spark(0);
@@ -58,7 +60,10 @@ public class RobotMap {
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 		
-		pneumaticThing = new DoubleSolenoid(1, 2);
+		pneumaticThing = new DoubleSolenoid(0, 1);
+		
+		gyro = new ADXRS450_Gyro();
+		gyro.calibrate();
 	}
 	
 }

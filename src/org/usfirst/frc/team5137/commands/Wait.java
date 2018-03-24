@@ -7,12 +7,18 @@ public class Wait extends Command {
 	
 	Timer timer;
 	
+	boolean isTimed;
 	boolean timerRunning;
 	double howLong;
-	double speed;
 	boolean isFinished;
 	
+	public Wait() {
+		isTimed = false;
+		isFinished = false;
+	}
+	
 	public Wait(double howLong) {
+		isTimed = true;
 		timer = new Timer();
 		timerRunning = false;
 		this.howLong = howLong;
@@ -20,16 +26,20 @@ public class Wait extends Command {
 	}
 	
 	public void execute() {
-		if (!timerRunning) {
-			timer.reset();
-			timer.start();
-			timerRunning = true;
-		}
-		if (timer.get() < howLong) {
+		if (isTimed) {
+			if (!timerRunning) {
+				timer.reset();
+				timer.start();
+				timerRunning = true;
+			}
+			if (timer.get() < howLong) {
+				;
+			}
+			else {
+				isFinished = true;
+			}
+		} else {
 			;
-		}
-		else {
-			isFinished = true;
 		}
 	}
 	

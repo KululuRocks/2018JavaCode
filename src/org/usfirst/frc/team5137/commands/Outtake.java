@@ -14,7 +14,7 @@ public class Outtake extends Command {
 	Timer timer;
 	
 	double howLong;
-	boolean autonomous;
+	boolean isTimed;
 	boolean timerRunning;
 	boolean willRun; // For EncoderLeftAutoSwitch and EncoderRightAutoSwitch
 	boolean isFinished;
@@ -22,7 +22,8 @@ public class Outtake extends Command {
 	// Constructor for teleop
 	public Outtake() {
 		requires(Robot.intakeNoun);
-		autonomous = false;
+		isTimed = false;
+		willRun = true;
 		isFinished = false;
 	} 
 	
@@ -31,27 +32,28 @@ public class Outtake extends Command {
 		requires(Robot.intakeNoun);
 		timer = new Timer();
 		this.howLong = howLong;
-		autonomous = true;
+		isTimed = true;
 		timerRunning = false;
 		willRun = true;
 		isFinished = false;
 	}
 	
 	protected void execute() {
-		if (autonomous && willRun) {
-			// Starts the timer if it hasn't been started yet.
-			if (!timerRunning) {
-				timer.reset();
-				timer.start();
-				timerRunning = true;
-			}
-			if (timer.get() < howLong) {
-				Robot.intakeNoun.outtake();
+		if (willRun) {
+			if (isTimed) {
+				if (!timerRunning) {
+					timer.reset();
+					timer.start();
+					timerRunning = true;
+				}
+				if (timer.get() < howLong) {
+					Robot.intakeNoun.outtake();
+				} else {
+					isFinished = true;
+				}
 			} else {
-				isFinished = true;
+				Robot.intakeNoun.outtake();
 			}
-		} else if (!autonomous) {
-			Robot.intakeNoun.outtake();
 		} else {
 			isFinished = true;
 		}

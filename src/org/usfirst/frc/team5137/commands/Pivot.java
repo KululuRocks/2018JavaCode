@@ -9,11 +9,18 @@ public class Pivot extends Command {
 
 	Timer timer;
 	
+	boolean isTimed;
 	boolean timerRunning;
 	double howLong;
 	double speed;
-	boolean isSwitchLeft;
+	boolean isLeft;
 	boolean isFinished;
+	
+	public Pivot(double speed) {
+		isTimed = false;
+		this.speed = speed;
+		isFinished = false;
+	}
 	
 	public Pivot(double howLong, double speed) {
 		requires(Robot.driveBase);
@@ -25,18 +32,24 @@ public class Pivot extends Command {
 	}
 	
 	public void execute() {
-		if (!timerRunning) {
-			timer.reset();
-			timer.start();
-			timerRunning = true;
-		}
-		if (timer.get() < howLong) {
-			if (isSwitchLeft) Robot.driveBase.pivot(-speed);
+		if (isTimed) {
+			if (!timerRunning) {
+				timer.reset();
+				timer.start();
+				timerRunning = true;
+			}
+			if (timer.get() < howLong) {
+				if (isLeft) Robot.driveBase.pivot(-speed);
+				else Robot.driveBase.pivot(speed);
+			}
+			else {
+				isFinished = true;
+			}
+		} else {
+			if (isLeft) Robot.driveBase.pivot(-speed);
 			else Robot.driveBase.pivot(speed);
 		}
-		else {
-			isFinished = true;
-		}
+		
 	}
 	
 	protected void interrupted() {
@@ -51,7 +64,8 @@ public class Pivot extends Command {
 		return isFinished;
 	}
 	
-	public void setSwitchDirection(boolean isSwitchLeft) {
-		this.isSwitchLeft = isSwitchLeft;
+	public void setDirection(boolean isLeft) {
+		this.isLeft = isLeft;
 	}
+	
 }

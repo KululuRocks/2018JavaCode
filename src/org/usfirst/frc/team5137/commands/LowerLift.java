@@ -16,13 +16,13 @@ public class LowerLift extends Command {
 	Timer timer;
 	
 	double howLong;
-	boolean autonomous;
+	boolean isTimed;
 	boolean timerRunning;
 	boolean isFinished;
 	
 	public LowerLift() {
 		requires(Robot.lift);
-		autonomous = false;
+		isTimed = false;
 		isFinished = false;
 	} 
 	
@@ -30,13 +30,13 @@ public class LowerLift extends Command {
 		requires(Robot.lift);
 		timer = new Timer();
 		this.howLong = howLong;
-		autonomous = true;
+		isTimed = true;
 		timerRunning = false;
 		isFinished = false;
 	}
 	
 	protected void execute() {
-		if (autonomous) {
+		if (isTimed) {
 			if (!timerRunning) {
 				timer.reset();
 				timer.start();

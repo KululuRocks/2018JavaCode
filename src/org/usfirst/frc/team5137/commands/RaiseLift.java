@@ -16,13 +16,15 @@ public class RaiseLift extends Command {
 	Timer timer;
 	
 	double howLong;
-	boolean autonomous;
+	boolean isTimed;
 	boolean timerRunning;
+	boolean willRun;
 	boolean isFinished;
 	
 	public RaiseLift() {
 		requires(Robot.lift);
-		autonomous = false;
+		isTimed = false;
+		willRun = true;
 		isFinished = false;
 	} 
 	
@@ -30,26 +32,31 @@ public class RaiseLift extends Command {
 		requires(Robot.lift);
 		timer = new Timer();
 		this.howLong = howLong;
-		autonomous = true;
+		isTimed = true;
 		timerRunning = false;
+		willRun = true;
 		isFinished = false;
 	}
 	
 	protected void execute() {
-		if (autonomous) {
-			if (!timerRunning) {
-				timer.reset();
-				timer.start();
-				timerRunning = true;
-			}
-			if (timer.get() < howLong && RobotMap.upperLimitSwitch.get()) { // true = not pressed, false = pressed
-				Robot.lift.raiseLift();
+		if (willRun) {
+			if (isTimed) {
+				if (!timerRunning) {
+					timer.reset();
+					timer.start();
+					timerRunning = true;
+				}
+				if (timer.get() < howLong && RobotMap.upperLimitSwitch.get()) { // true = not pressed, false = pressed
+					Robot.lift.raiseLift();
+				} else {
+					isFinished = true;
+				}
 			} else {
-				isFinished = true;
+				if (RobotMap.upperLimitSwitch.get()) Robot.lift.raiseLift();
+				else Robot.lift.stop();
 			}
 		} else {
-			if (RobotMap.upperLimitSwitch.get()) Robot.lift.raiseLift();
-			else Robot.lift.stop();
+			isFinished = true;
 		}
 	}
 	
@@ -63,6 +70,10 @@ public class RaiseLift extends Command {
 	
 	protected boolean isFinished() {
 		return isFinished;
+	}
+	
+	public void setWillRun(boolean willRun) {
+		this.willRun = willRun;
 	}
 	
 }

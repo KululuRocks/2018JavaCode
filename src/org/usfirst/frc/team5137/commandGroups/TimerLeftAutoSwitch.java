@@ -1,10 +1,10 @@
 package org.usfirst.frc.team5137.commandGroups;
 
 import org.usfirst.frc.team5137.commands.DisplayValues;
+import org.usfirst.frc.team5137.commands.DriveForward;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.Outtake;
 import org.usfirst.frc.team5137.commands.RaiseLift;
-import org.usfirst.frc.team5137.commands.TimerDriveForward;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -17,21 +17,21 @@ public class TimerLeftAutoSwitch extends CommandGroup implements RequiresGameDat
 	private DisplayValues displayValues;
 	private LowerIntake lowerIntake;
 	private RaiseLift raiseLift;
-	private TimerDriveForward driveForward;
+	private DriveForward driveForward;
 	private Outtake outtake;
 	
 	public TimerLeftAutoSwitch() {
 		displayValues = new DisplayValues();
-		lowerIntake = new LowerIntake(1);
-		raiseLift = new RaiseLift(1.5);
-		driveForward = new TimerDriveForward(4, .65);
-		outtake = new Outtake(1);
+		lowerIntake = new LowerIntake();
+		raiseLift = new RaiseLift();
+		driveForward = new DriveForward(.65);
+		outtake = new Outtake();
 		
 		addParallel(displayValues);
-		addSequential(lowerIntake);
-		addSequential(raiseLift);
-     	addSequential(driveForward); 
-     	addSequential(outtake);
+		addSequential(lowerIntake, 1);
+		addSequential(raiseLift, 1.2);
+     	addSequential(driveForward, 4); 
+     	addSequential(outtake, 1);
 	}
 	
 	// tells outtake whether or not to run

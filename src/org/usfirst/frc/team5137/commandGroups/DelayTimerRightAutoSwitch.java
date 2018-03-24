@@ -1,10 +1,10 @@
 package org.usfirst.frc.team5137.commandGroups;
 
 import org.usfirst.frc.team5137.commands.DisplayValues;
+import org.usfirst.frc.team5137.commands.DriveForward;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.Outtake;
 import org.usfirst.frc.team5137.commands.RaiseLift;
-import org.usfirst.frc.team5137.commands.TimerDriveForward;
 import org.usfirst.frc.team5137.commands.Wait;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -19,23 +19,23 @@ public class DelayTimerRightAutoSwitch extends CommandGroup implements RequiresG
 	private Wait wait;
 	private LowerIntake lowerIntake;
 	private RaiseLift raiseLift;
-	private TimerDriveForward driveForward;
+	private DriveForward driveForward;
 	private Outtake outtake;
 	
 	public DelayTimerRightAutoSwitch() {
 		displayValues = new DisplayValues();
-		wait = new Wait(2);
-		lowerIntake = new LowerIntake(1);
-		raiseLift = new RaiseLift(1.5);
-		driveForward = new TimerDriveForward(4, .65);
-		outtake = new Outtake(1);
+		wait = new Wait();
+		lowerIntake = new LowerIntake();
+		raiseLift = new RaiseLift();
+		driveForward = new DriveForward(.65);
+		outtake = new Outtake();
 		
 		addParallel(displayValues);
-		addSequential(wait);
-		addSequential(lowerIntake);
-		addSequential(raiseLift);
-     	addSequential(driveForward); 
-     	addSequential(outtake);
+		addSequential(wait, 2);
+		addSequential(lowerIntake, 1);
+		addSequential(raiseLift, 1.2);
+     	addSequential(driveForward, 4); 
+     	addSequential(outtake, 1);
 	}
 	
 	// tells outtake whether or not to run
@@ -45,4 +45,5 @@ public class DelayTimerRightAutoSwitch extends CommandGroup implements RequiresG
 		    else outtake.setWillRun(false);
 		} else outtake.setWillRun(false);
 	}
+	
 }

@@ -21,11 +21,11 @@ public class IntakeNoun extends Subsystem {
 	}
 	
 	public void openIntake() {
-		pneumaticThing.set(DoubleSolenoid.Value.kForward);
+		pneumaticThing.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	public void closeIntake() {
-		pneumaticThing.set(DoubleSolenoid.Value.kReverse);
+		pneumaticThing.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	public void intake() {

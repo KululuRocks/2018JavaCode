@@ -14,9 +14,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ClimbPrep extends CommandGroup {
 
 	public ClimbPrep() {
-		addSequential(new RaiseLift(2));
-		addSequential(new LowerIntake(3)); // might be too long
-		addSequential(new LowerLift(2));
+		addSequential(new RaiseLift(), 1.5);
+		addSequential(new LowerIntake(), 3);
+		addSequential(new LowerLift(), 1.5);
 	}
 	
 }

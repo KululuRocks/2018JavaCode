@@ -6,13 +6,19 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team5137.robot;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team5137.commandGroups.CenterAutoSwitch;
 import org.usfirst.frc.team5137.commandGroups.DelayTimerLeftAutoSwitch;
 import org.usfirst.frc.team5137.commandGroups.DelayTimerRightAutoSwitch;
+import org.usfirst.frc.team5137.commandGroups.LeftAutoScale;
 import org.usfirst.frc.team5137.commandGroups.RequiresGameData;
+import org.usfirst.frc.team5137.commandGroups.RightAutoScale;
 import org.usfirst.frc.team5137.commandGroups.TimerLeftAutoSwitch;
 import org.usfirst.frc.team5137.commandGroups.TimerRightAutoSwitch;
-import org.usfirst.frc.team5137.commands.EncoderDriveForward;
+import org.usfirst.frc.team5137.commands.DisplayValues;
+import org.usfirst.frc.team5137.commands.TimerDriveForward;
+import org.usfirst.frc.team5137.grip.GripPipelineVOne;
 import org.usfirst.frc.team5137.subsystems.DriveBase;
 import org.usfirst.frc.team5137.subsystems.IntakeNoun;
 import org.usfirst.frc.team5137.subsystems.Lift;
@@ -26,6 +32,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,8 +55,14 @@ public class Robot extends TimedRobot {
 
 	public static OI oi;	
 	
-	public static UsbCamera camera;
+	public static UsbCamera calebCamera;
+	public static UsbCamera rohanCamera;
 	public static Timer timer; 
+	
+	public static Object imgLock;
+	public static VisionThread visionThread;
+	
+	public static double centerX = 0.0;
 	
 	public static String gameData;
 	
@@ -70,20 +83,33 @@ public class Robot extends TimedRobot {
 	   	
 		oi = new OI(); // gotta go after all the subsystems!
 		
-		camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(320, 240);
-		camera.setFPS(30); 
+		calebCamera = CameraServer.getInstance().startAutomaticCapture();
+		calebCamera.setResolution(320, 240);
+		calebCamera.setFPS(30); 
+		
 		
 		timer = new Timer();
 		
+		visionThread =  new VisionThread(calebCamera, new GripPipelineVOne(), pipeline -> {
+			if (!pipeline.filterContoursOutput().isEmpty()) {
+				Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+                synchronized (imgLock) {
+                    centerX = r.x + (r.width / 2);
+                }
+            }
+        });
+        visionThread.start();
+		
 		// adds autonomous options and displays them on the SmartDashboard
 		autoChooser = new SendableChooser<Command>();
-		autoChooser.addDefault("Cross the auto line", new EncoderDriveForward(11 * 12, .65));
-		autoChooser.addObject("Switch from center", new CenterAutoSwitch());
+		autoChooser.addDefault("Switch from center", new CenterAutoSwitch());
+		autoChooser.addObject("Cross the auto line", new TimerDriveForward(4, .65));
 		autoChooser.addObject("Switch from left", new TimerLeftAutoSwitch());
 		autoChooser.addObject("Switch from left, delay", new DelayTimerLeftAutoSwitch());
 		autoChooser.addObject("Switch from right", new TimerRightAutoSwitch());
 		autoChooser.addObject("Switch from right, delay", new DelayTimerRightAutoSwitch());
+		autoChooser.addObject("Scale from left", new LeftAutoScale());
+		autoChooser.addObject("Scale from right", new RightAutoScale());
 		SmartDashboard.putData("Autonomous mode chooser", autoChooser);	
 	}
 	
@@ -122,6 +148,8 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) autonomousCommand.cancel();
 		timer.reset();
 		timer.start();
+		DisplayValues displayValues = new DisplayValues();
+		displayValues.start();
 	}
 	
 	/* teleopPeriodic runs any default commands defined in any subsystems, 

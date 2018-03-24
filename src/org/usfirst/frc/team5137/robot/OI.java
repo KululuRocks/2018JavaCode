@@ -1,7 +1,9 @@
 package org.usfirst.frc.team5137.robot;
 
-import org.usfirst.frc.team5137.commandGroups.ClimbPrep;
 import org.usfirst.frc.team5137.commands.CloseIntake;
+import org.usfirst.frc.team5137.commands.EncoderPivot;
+import org.usfirst.frc.team5137.commands.GyroDriveStraight;
+import org.usfirst.frc.team5137.commands.GyroPivot;
 import org.usfirst.frc.team5137.commands.IntakeVerb;
 import org.usfirst.frc.team5137.commands.LowerIntake;
 import org.usfirst.frc.team5137.commands.LowerLift;
@@ -20,6 +22,7 @@ public class OI {
 	
 	// I don't think these have to be public but I know it works.
 	public Joystick jackBlack;
+	public Joystick jacob;
 	
 	public JoystickButton raiseLiftButton;
 	public JoystickButton lowerLiftButton;
@@ -29,12 +32,15 @@ public class OI {
 	public JoystickButton outtakeButton;
 	public JoystickButton openIntakeButton;
 	public JoystickButton closeIntakeButton;
-	public JoystickButton climbPrepButton;
+	public JoystickButton aimBotButton;
 	
-	//public JoystickButton encoderTestButton;
-	//public JoystickButton pivotTestButton;
+	public JoystickButton testButton1;
+	public JoystickButton testButton2;
+	public JoystickButton testButton3;
+	public JoystickButton testButton4;
 	
 	public OI() {
+		
 		jackBlack = new Joystick(0);
 		
 		raiseLiftButton = new JoystickButton(jackBlack, 3); // X
@@ -43,38 +49,37 @@ public class OI {
 		lowerLiftButton = new JoystickButton(jackBlack, 4); // Y
 		lowerLiftButton.whileHeld(new LowerLift());
 		
-		raiseIntakeButton = new JoystickButton(jackBlack, 5); // left bumper
-		raiseIntakeButton.whileHeld(new RaiseIntake());
+		// testtesttest
+		testButton1 = new JoystickButton(jackBlack, 1); // A
+		testButton1.whenPressed(new EncoderPivot(2 * 12, .75)); // should pivot 90 degrees clockwise
 		
-		lowerIntakeButton = new JoystickButton(jackBlack, 6); // right bumper
-		lowerIntakeButton.whileHeld(new LowerIntake());
+		testButton2 = new JoystickButton(jackBlack, 2); // B
+		testButton2.whenPressed(new GyroPivot(90, .75)); // should pivot 90 degrees clockwise
 		
-		intakeButton = new JoystickButton(jackBlack, 1); // A
+		testButton3 = new JoystickButton(jackBlack, 5); // yikes idk what button this is
+		testButton3.whileHeld(new GyroDriveStraight(.65)); // should drive straight toward heading 0
+		
+		
+		jacob = new Joystick(1);
+		
+		openIntakeButton = new JoystickButton(jacob, 1); // A
+		openIntakeButton.whenPressed(new OpenIntake());
+		
+		closeIntakeButton = new JoystickButton(jacob, 2); // B
+		closeIntakeButton.whenPressed(new CloseIntake());
+		
+		intakeButton = new JoystickButton(jacob, 3); // X
 		intakeButton.whileHeld(new IntakeVerb());
 		
-		outtakeButton = new JoystickButton(jackBlack, 2); // B
+		outtakeButton = new JoystickButton(jacob, 4); // Y
 		outtakeButton.whileHeld(new Outtake());
 		
-		openIntakeButton = new JoystickButton(jackBlack, 7); // left "menu" button
-		openIntakeButton.whileHeld(new OpenIntake());
+		raiseIntakeButton = new JoystickButton(jacob, 5); // LB
+		raiseIntakeButton.whileHeld(new RaiseIntake());
 		
-		closeIntakeButton = new JoystickButton(jackBlack, 8); // actual menu button
-		closeIntakeButton.whileHeld(new CloseIntake());
+		lowerIntakeButton = new JoystickButton(jacob, 6); // RB
+		lowerIntakeButton.whileHeld(new LowerIntake());
 		
-		climbPrepButton = new JoystickButton(jackBlack, 9); // left joystick clicky
-		climbPrepButton.whenPressed(new ClimbPrep()); 	
-			
-		/*
-		pivotTestButton = new JoystickButton(jackBlack, 7);
-		pivotTestButton.whenPressed(new Pivot(1.3, .65)); // slightly more than 90 deg on concrete w/ V = 12.3 */
-				
-		/*
-		EncoderDriveForward edf = new EncoderDriveForward(6, .6);
-		ButtonPressed buttonPressed = new ButtonPressed(edf);
-		ButtonReleased buttonReleased = new ButtonReleased(edf);
-		encoderTestButton = new JoystickButton(jackBlack, 8); // menu
-		encoderTestButton.whileHeld(buttonPressed);
-		encoderTestButton.whenReleased(buttonReleased); */
 	}
 	
 }

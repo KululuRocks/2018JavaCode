@@ -14,14 +14,14 @@ public class IntakeVerb extends Command {
 	Timer timer;
 	
 	double howLong;
-	boolean autonomous;
+	boolean isTimed;
 	boolean timerRunning;
 	boolean isFinished;
 	
 	// Constructor for teleop
 	public IntakeVerb() {
 		requires(Robot.intakeNoun);
-		autonomous = false;
+		isTimed = false;
 		isFinished = false;
 	} 
 	
@@ -30,13 +30,13 @@ public class IntakeVerb extends Command {
 		requires(Robot.intakeNoun);
 		timer = new Timer();
 		this.howLong = howLong;
-		autonomous = true;
+		isTimed = true;
 		timerRunning = false;
 		isFinished = false;
 	}
 	
 	protected void execute() {
-		if (autonomous) {
+		if (isTimed) {
 			// Starts the timer if it hasn't been started yet.
 			if (!timerRunning) {
 				timer.reset();
