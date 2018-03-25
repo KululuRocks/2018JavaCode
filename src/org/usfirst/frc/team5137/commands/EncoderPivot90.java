@@ -6,7 +6,7 @@ import org.usfirst.frc.team5137.robot.RobotMap;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class EncoderPivot extends Command implements RepeatsInTeleop {
+public class EncoderPivot90 extends Command {
 
 	Encoder leftEncoder = RobotMap.leftEncoder;
 	Encoder rightEncoder = RobotMap.rightEncoder;
@@ -17,11 +17,18 @@ public class EncoderPivot extends Command implements RepeatsInTeleop {
 	boolean isFinished;
 	boolean isReset;
 	
-	public EncoderPivot(double distance, double speed) {
+	public EncoderPivot90(double speed) {
 		requires(Robot.driveBase);
-		this.distance = distance;
 		this.speed = speed;
 		isLeft = false;
+		isReset = false;
+		isFinished = false;
+	}
+	
+	public EncoderPivot90(double speed, boolean isLeft) {
+		requires(Robot.driveBase);
+		this.speed = speed;
+		this.isLeft = isLeft;
 		isReset = false;
 		isFinished = false;
 	}
@@ -32,11 +39,13 @@ public class EncoderPivot extends Command implements RepeatsInTeleop {
 			isReset = true;
 		}
 		if (isLeft) {
-			if (Math.abs(leftEncoder.getDistance()) < distance) {
+			distance = 13;
+			if (Math.abs(rightEncoder.getDistance()) < distance) {
 				Robot.driveBase.pivot(-speed);
 			} else isFinished = true;	
 		} else {
-			if (Math.abs(rightEncoder.getDistance()) < distance) {
+			distance = 24;
+			if (Math.abs(leftEncoder.getDistance()) < distance) {
 				Robot.driveBase.pivot(speed);
 			} else isFinished = true;
 		}

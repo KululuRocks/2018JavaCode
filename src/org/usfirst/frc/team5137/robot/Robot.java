@@ -103,10 +103,10 @@ public class Robot extends TimedRobot {
 		// adds autonomous options and displays them on the SmartDashboard
 		autoChooser = new SendableChooser<Command>();
 		autoChooser.addDefault("Switch from center", new CenterAutoSwitch());
+		autoChooser.addObject("Switch from right", new TimerRightAutoSwitch());
 		autoChooser.addObject("Cross the auto line", new TimerDriveForward(4, .65));
 		autoChooser.addObject("Switch from left", new TimerLeftAutoSwitch());
 		autoChooser.addObject("Switch from left, delay", new DelayTimerLeftAutoSwitch());
-		autoChooser.addObject("Switch from right", new TimerRightAutoSwitch());
 		autoChooser.addObject("Switch from right, delay", new DelayTimerRightAutoSwitch());
 		autoChooser.addObject("Scale from left", new LeftAutoScale());
 		autoChooser.addObject("Scale from right", new RightAutoScale());

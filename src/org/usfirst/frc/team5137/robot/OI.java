@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5137.robot;
 
 import org.usfirst.frc.team5137.commands.CloseIntake;
-import org.usfirst.frc.team5137.commands.EncoderPivot;
+import org.usfirst.frc.team5137.commands.EncoderPivot90;
 import org.usfirst.frc.team5137.commands.GyroDriveStraight;
 import org.usfirst.frc.team5137.commands.GyroPivot;
 import org.usfirst.frc.team5137.commands.IntakeVerb;
@@ -49,16 +49,20 @@ public class OI {
 		lowerLiftButton = new JoystickButton(jackBlack, 4); // Y
 		lowerLiftButton.whileHeld(new LowerLift());
 		
+		/*
 		// testtesttest
 		testButton1 = new JoystickButton(jackBlack, 1); // A
-		testButton1.whenPressed(new EncoderPivot(2 * 12, .75)); // should pivot 90 degrees clockwise
+		testButton1.whenPressed(new EncoderPivot90(.75, true)); // should pivot 90 degrees clockwise
 		
 		testButton2 = new JoystickButton(jackBlack, 2); // B
 		testButton2.whenPressed(new GyroPivot(90, .75)); // should pivot 90 degrees clockwise
 		
-		testButton3 = new JoystickButton(jackBlack, 5); // yikes idk what button this is
+		testButton3 = new JoystickButton(jackBlack, 5); // LB
 		testButton3.whileHeld(new GyroDriveStraight(.65)); // should drive straight toward heading 0
 		
+		testButton4 = new JoystickButton(jackBlack, 6); // RB
+		testButton4.whenPressed(new EncoderPivot(2 * 12, .75, true)); // should pivot 90 degrees CCW
+		*/
 		
 		jacob = new Joystick(1);
 		
@@ -78,7 +82,7 @@ public class OI {
 		raiseIntakeButton.whileHeld(new RaiseIntake());
 		
 		lowerIntakeButton = new JoystickButton(jacob, 6); // RB
-		lowerIntakeButton.whileHeld(new LowerIntake());
+		lowerIntakeButton.whileHeld(new LowerIntake()); 
 		
 	}
 	
